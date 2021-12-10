@@ -19,7 +19,10 @@ public class Elevator {
     private List<Floor> floors;
 
     public Elevator(int numberOfFloors) {
-        floors = new ArrayList<>(numberOfFloors);
+        floors = new ArrayList<>();
+        for(int i = 0; i < numberOfFloors; ++i) {
+            floors.add(new Floor(false, false, false));
+        }
     }
 
     public void setElevatorButton(int floor, boolean value) throws IllegalArgumentException {
@@ -116,7 +119,7 @@ public class Elevator {
     }
 
     public void setServicesFloors(int floor, boolean service) throws IllegalArgumentException {
-        if(floor >= 0 && floor < floors.size() && floors.get(floor).isServiced())
+        if(floor >= 0 && floor < floors.size())
             floors.get(floor).setServiced(service);
         else
             throw new IllegalArgumentException();
