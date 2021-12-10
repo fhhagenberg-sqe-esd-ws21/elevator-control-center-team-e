@@ -3,6 +3,10 @@ package at.fhhagenberg.sqe.ecc;
 import java.rmi.RemoteException;
 import java.util.EventListener;
 
+/**
+ *
+ * @author
+ */
 public class ElevatorModelFactory {
 
     IElevator elevatorInterface;

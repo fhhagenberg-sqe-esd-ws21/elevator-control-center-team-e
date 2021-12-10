@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ * @author
+ */
 public class ElevatorModel {
 
     private List<Elevator> elevators;

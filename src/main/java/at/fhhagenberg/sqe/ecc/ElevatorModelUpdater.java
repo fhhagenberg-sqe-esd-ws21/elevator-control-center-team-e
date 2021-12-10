@@ -2,18 +2,31 @@ package at.fhhagenberg.sqe.ecc;
 
 import java.rmi.RemoteException;
 
+/**
+ * Class to handle cyclic updates of low level elevator system.
+ * @author Markus Lindner - s2010567018
+ */
 public class ElevatorModelUpdater {
 
     IElevator elevatorInterface;
     ElevatorModel model;
 
+    /**
+     * Constructor of the class.
+     * @param elevatorInterface The interface which should be used to communicate with low level elevator system.
+     * @param model The model which should be used to store the information at.
+     */
     public ElevatorModelUpdater(IElevator elevatorInterface, ElevatorModel model) {
         this.elevatorInterface = elevatorInterface;
         this.model = model;
     }
 
+    /**
+     * Uses the specified interface to get all information from the low level elevator system and stores the information
+     * using the specified model.
+     * This method should be called every 100 milliseconds.
+     */
     public void UpdateModel() {
-        System.out.println(model.getNumOfElevators());
         for(int i = 0; i < model.getNumOfElevators(); ++i) {
             try {
                 model.setCommittedDirection(i, elevatorInterface.getCommittedDirection(i));
