@@ -2,16 +2,15 @@ package at.fhhagenberg.sqe.ecc;
 
 public class Floor {
 
+    private boolean serviced;
     private boolean floorRequestButton;
     private boolean floorButtonDown;
     private boolean floorButtonUp;
-    private int floorHeight;
 
     public Floor(boolean floorRequestButton, boolean floorButtonDown, boolean floorButtonUp, int floorHeight) {
         this.floorRequestButton = floorRequestButton;
         this.floorButtonDown = floorButtonDown;
         this.floorButtonUp = floorButtonUp;
-        this.floorHeight = floorHeight;
     }
 
     public boolean isFloorRequestButton() {
@@ -26,8 +25,12 @@ public class Floor {
         return floorButtonUp;
     }
 
-    public int getFloorHeight() {
-        return floorHeight;
+    public boolean isServiced() {
+        return serviced;
+    }
+
+    public void setServiced(boolean serviced) {
+        this.serviced = serviced;
     }
 
     public void setFloorButtonDown(boolean floorButtonDown) {
@@ -36,10 +39,6 @@ public class Floor {
 
     public void setFloorButtonUp(boolean floorButtonUp) {
         this.floorButtonUp = floorButtonUp;
-    }
-
-    public void setFloorHeight(int floorHeight) {
-        this.floorHeight = floorHeight;
     }
 
     public void setFloorRequestButton(boolean floorRequestButton) {

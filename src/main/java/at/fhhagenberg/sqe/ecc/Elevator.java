@@ -1,8 +1,8 @@
 package at.fhhagenberg.sqe.ecc;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Elevator {
 
@@ -14,21 +14,19 @@ public class Elevator {
     private int elevatorSpeed;
     private int elevatorWeight;
     private int elevatorCapacity;
-    private int elevatorTargetFloor;
+    private int target;
 
-    private Map<Integer, Floor> servicedFloors;
+    private List<Floor> floors;
 
-    public Elevator(int committedDirection, int elevatorAccel, int elevatorDoorStatus, int elevatorFloor, int elevatorPosition, int elevatorSpeed, int elevatorWeight, int elevatorCapacity, Map<Integer, Floor> servicedFloors, int elevatorTargetFloor) {
-        this.committedDirection = committedDirection;
-        this.elevatorAccel = elevatorAccel;
-        this.elevatorDoorStatus = elevatorDoorStatus;
-        this.elevatorFloor = elevatorFloor;
-        this.elevatorPosition = elevatorPosition;
-        this.elevatorSpeed = elevatorSpeed;
-        this.elevatorWeight = elevatorWeight;
-        this.elevatorCapacity = elevatorCapacity;
-        this.servicedFloors = servicedFloors;
-        this.elevatorTargetFloor = elevatorTargetFloor;
+    public Elevator(int numberOfFloors) {
+        floors = new ArrayList<>(numberOfFloors);
+    }
+
+    public void setElevatorButton(int floor, boolean value) throws IllegalArgumentException {
+        if(floor >= floors.size())
+            throw new IllegalArgumentException();
+
+        floors.get(floor).setFloorRequestButton(value);
     }
 
     public int getCommittedDirection() {
@@ -63,19 +61,22 @@ public class Elevator {
         return elevatorCapacity;
     }
 
-    public int getElevatorTargetFloor() {
-        return elevatorTargetFloor;
+    public int getTarget() {
+        return target;
     }
 
-    public boolean getElevatorButton(int floor) {
-        if(!servicedFloors.containsKey(floor))
-            return false; //TODO: exception?
-
-        return servicedFloors.get(floor).isFloorRequestButton();
+    public boolean getElevatorButton(int floor) throws IllegalArgumentException {
+        if(floor >= 0 && floor < floors.size() && floors.get(floor).isServiced())
+            return floors.get(floor).isFloorRequestButton();
+        else
+            throw new IllegalArgumentException();
     }
 
-    public boolean getServicesFloors(int floor) {
-        return servicedFloors.containsKey(floor);
+    public boolean getServicesFloors(int floor) throws IllegalArgumentException {
+        if(floor < 0 && floor >= floors.size())
+            throw new IllegalArgumentException();
+
+        return floors.get(floor).isServiced();
     }
 
     public void setCommittedDirection(int committedDirection) {
@@ -110,16 +111,14 @@ public class Elevator {
         this.elevatorCapacity = elevatorCapacity;
     }
 
-    public void setElevatorTargetFloor(int elevatorTargetFloor) {
-        this.elevatorTargetFloor = elevatorTargetFloor;
+    public void setTarget(int elevatorTargetFloor) {
+        this.target = elevatorTargetFloor;
     }
 
-    public void setServicesFloor(int floorNum, boolean service, Floor floor) {
-        if(service && !servicedFloors.containsKey(floor)) {
-            servicedFloors.put(floorNum, floor);
-        }
-        else if(!service && servicedFloors.containsKey(floor)) {
-            servicedFloors.remove(floorNum);
-        }
+    public void setServicesFloors(int floor, boolean service) throws IllegalArgumentException {
+        if(floor >= 0 && floor < floors.size() && floors.get(floor).isServiced())
+            floors.get(floor).setServiced(service);
+        else
+            throw new IllegalArgumentException();
     }
 }
