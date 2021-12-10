@@ -69,7 +69,7 @@ public class Elevator {
     }
 
     public boolean getElevatorButton(int floor) throws IllegalArgumentException {
-        if(floor >= 0 && floor < floors.size() && floors.get(floor).isServiced())
+        if(floor >= 0 && floor < floors.size())
             return floors.get(floor).isFloorRequestButton();
         else
             throw new IllegalArgumentException();

@@ -190,7 +190,7 @@ public class ElevatorModelTest {
 	void testElevatorModel_Target()
 	{
 		model.setTarget(0, 9);
-		assertEquals(9, model.getTarget(1));
+		assertEquals(9, model.getTarget(0));
 	}
 	
 	@Test
@@ -229,8 +229,8 @@ public class ElevatorModelTest {
 	@Test
 	void testElevatorModel_ElevatorAccel()
 	{
-		model.setCommittedDirection(2, 49);
-		assertEquals(2, model.getElevatorAccel(49));
+		model.setElevatorAccel(2, 49);
+		assertEquals(49, model.getElevatorAccel(2));
 	}
 	
 	@Test
@@ -646,7 +646,7 @@ public class ElevatorModelTest {
 	void testElevatorModel_ClockTick()
 	{
 		model.setClockTick(9);
-		assertEquals(6, model.getClockTick());
+		assertEquals(9, model.getClockTick());
 	}
 		
 }

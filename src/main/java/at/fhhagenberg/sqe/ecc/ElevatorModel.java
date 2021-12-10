@@ -88,105 +88,105 @@ public class ElevatorModel {
     }
 
     public void setElevatorAccel(int elevatorNumber, int value) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size())
+        if(elevatorNumber < 0 || elevatorNumber >= elevators.size())
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorAccel(value);
     }
     
     public boolean getElevatorButton(int elevatorNumber, int floor) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size() || floor < 0 || floor >= floors.size())
+        if(elevatorNumber < 0 || elevatorNumber >= elevators.size() || floor < 0 || floor >= floors.size())
             throw new IllegalArgumentException();
 
         return elevators.get(elevatorNumber).getElevatorButton(floor);
     }
 
     public void setElevatorButton(int elevatorNumber, int floor, boolean value) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size() || floor < 0 || floor >= floors.size())
+        if(elevatorNumber < 0 || elevatorNumber >= elevators.size() || floor < 0 || floor >= floors.size())
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorButton(floor, value);
     }
     
     public int getElevatorDoorStatus(int elevatorNumber) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size())
+        if(elevatorNumber < 0 || elevatorNumber >= elevators.size())
             throw new IllegalArgumentException();
 
         return elevators.get(elevatorNumber).getElevatorDoorStatus();
     }
 
     public void setElevatorDoorStatus(int elevatorNumber, int doorStatus) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size())
+        if(elevatorNumber < 0 || elevatorNumber >= elevators.size())
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorDoorStatus(doorStatus);
     }
     
     public int getElevatorFloor(int elevatorNumber) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size())
+        if(elevatorNumber < 0 || elevatorNumber >= elevators.size())
             throw new IllegalArgumentException();
 
         return elevators.get(elevatorNumber).getElevatorFloor();
     }
 
     public void setElevatorFloor(int elevatorNumber, int floor) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size() || floor < 0 || floor >= floors.size())
+        if(elevatorNumber < 0 || elevatorNumber >= elevators.size() || floor < 0 || floor >= floors.size())
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorFloor(floor);
     }
     
     public int getElevatorPosition(int elevatorNumber) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size())
+        if(elevatorNumber >= elevators.size() || elevatorNumber < 0)
             throw new IllegalArgumentException();
 
         return elevators.get(elevatorNumber).getElevatorPosition();
     }
 
     public void setElevatorPosition(int elevatorNumber, int position) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size())
+        if(elevatorNumber < 0 || elevatorNumber >= elevators.size())
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorPosition(position);
     }
     
     public int getElevatorSpeed(int elevatorNumber) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size())
+        if(elevatorNumber < 0 || elevatorNumber >= elevators.size())
             throw new IllegalArgumentException();
 
         return elevators.get(elevatorNumber).getElevatorSpeed();
     }
 
     public void setElevatorSpeed(int elevatorNumber, int speed) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size())
+        if(elevatorNumber < 0 || elevatorNumber >= elevators.size())
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorSpeed(speed);
     }
     
     public int getElevatorWeight(int elevatorNumber) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size())
+        if(elevatorNumber < 0 || elevatorNumber >= elevators.size())
             throw new IllegalArgumentException();
 
         return elevators.get(elevatorNumber).getElevatorWeight();
     }
 
     public void setElevatorWeight(int elevatorNumber, int weight) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size())
+        if(elevatorNumber < 0 || elevatorNumber >= elevators.size())
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorWeight(weight);
     }
     
     public int getElevatorCapacity(int elevatorNumber) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size())
+        if(elevatorNumber >= elevators.size() || elevatorNumber < 0)
             throw new IllegalArgumentException();
 
         return elevators.get(elevatorNumber).getElevatorCapacity();
     }
 
     public void setElevatorCapacity(int elevatorNumber, int capacity) throws IllegalArgumentException {
-        if(elevatorNumber >= elevators.size())
+        if(elevatorNumber < 0 || elevatorNumber >= elevators.size())
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorCapacity(capacity);
