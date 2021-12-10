@@ -7,7 +7,7 @@ public class Floor {
     private boolean floorButtonDown;
     private boolean floorButtonUp;
 
-    public Floor(boolean floorRequestButton, boolean floorButtonDown, boolean floorButtonUp, int floorHeight) {
+    public Floor(boolean floorRequestButton, boolean floorButtonDown, boolean floorButtonUp) {
         this.floorRequestButton = floorRequestButton;
         this.floorButtonDown = floorButtonDown;
         this.floorButtonUp = floorButtonUp;

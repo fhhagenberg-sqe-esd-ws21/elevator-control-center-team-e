@@ -12,7 +12,8 @@ public class ElevatorModelUpdater {
         this.model = model;
     }
 
-    void UpdateModel() {
+    public void UpdateModel() {
+        System.out.println(model.getNumOfElevators());
         for(int i = 0; i < model.getNumOfElevators(); ++i) {
             try {
                 model.setCommittedDirection(i, elevatorInterface.getCommittedDirection(i));

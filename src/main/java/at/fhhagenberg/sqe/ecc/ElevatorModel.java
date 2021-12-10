@@ -16,9 +16,15 @@ public class ElevatorModel {
     private int loggingLevel;
 
     public ElevatorModel(int numberOfElevators, int numberOfFloors, int floorHeight) {
-        elevators = new ArrayList<>(numberOfElevators);
+        elevators = new ArrayList<>();
+        for(int i = 0; i < numberOfElevators; ++i) {
+            elevators.add(new Elevator(numberOfFloors));
+        }
         floors = new ArrayList<>(numberOfFloors);
-        Map<Integer, Floor> servicedFloors = new HashMap<>();
+        for(int i = 0; i < numberOfFloors; ++i) {
+            floors.add(new Floor(false, false, false));
+        }
+
         this.floorHeight = floorHeight;
         clockTick = 0;
         loggingLevel = 0;
