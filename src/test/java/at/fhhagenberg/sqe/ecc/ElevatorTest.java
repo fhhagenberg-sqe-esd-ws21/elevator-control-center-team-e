@@ -2,7 +2,7 @@ package at.fhhagenberg.sqe.ecc;
 
 /**
  *
- * @author
+ * @author Alexander Kemptner - S2010567016
  */
 public class ElevatorTest {
 }

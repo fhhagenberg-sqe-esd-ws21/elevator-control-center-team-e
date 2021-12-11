@@ -16,11 +16,13 @@ public class Floor {
      * @param floorRequestButton Specifies if elevators request button is activated on creation.
      * @param floorButtonDown Specifies if the button for travelling down is activated on creation.
      * @param floorButtonUp Specifies if the button for travelling up is activated on creation.
+     * @param floorServiced Specifies if this floor is serviced by the elevator.
      */
-    public Floor(boolean floorRequestButton, boolean floorButtonDown, boolean floorButtonUp) {
+    public Floor(boolean floorRequestButton, boolean floorButtonDown, boolean floorButtonUp, boolean floorServiced) {
         this.floorRequestButton = floorRequestButton;
         this.floorButtonDown = floorButtonDown;
         this.floorButtonUp = floorButtonUp;
+        this.serviced = floorServiced;
     }
 
     /**

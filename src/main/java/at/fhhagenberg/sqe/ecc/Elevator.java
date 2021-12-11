@@ -29,7 +29,7 @@ public class Elevator {
     public Elevator(int numberOfFloors) {
         floors = new ArrayList<>();
         for(int i = 0; i < numberOfFloors; ++i) {
-            floors.add(new Floor(false, false, false));
+            floors.add(new Floor(false, false, false, true));
         }
     }
 
@@ -138,7 +138,7 @@ public class Elevator {
      * @throws IllegalArgumentException
      */
     public boolean getServicesFloors(int floor) throws IllegalArgumentException {
-        if(floor < 0 && floor >= floors.size())
+        if(floor < 0 || floor >= floors.size())
             throw new IllegalArgumentException();
 
         return floors.get(floor).isServiced();
