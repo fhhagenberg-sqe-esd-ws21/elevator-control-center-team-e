@@ -67,10 +67,22 @@ public class ElevatorModelTest {
 	@Test
 	void testElevatorModel_CommittedDirection()
 	{
-		model.setCommittedDirection(1, 9);
-		assertEquals(9, model.getCommittedDirection(1));
+		model.setCommittedDirection(1, 1);
+		assertEquals(1, model.getCommittedDirection(1));
 	}
-	
+
+	@Test
+	void testElevatorModel_CommittedDirectionInvalidTooLow()
+	{
+		assertThrows(IllegalArgumentException.class, () -> model.setCommittedDirection(1, -1));
+	}
+
+	@Test
+	void testElevatorModel_CommittedDirectionInvalidTooHigh()
+	{
+		assertThrows(IllegalArgumentException.class, () -> model.setCommittedDirection(1, 3));
+	}
+
 	@Test
 	void testElevatorModel_getServicesFloorsTooSmallElevator()
 	{
