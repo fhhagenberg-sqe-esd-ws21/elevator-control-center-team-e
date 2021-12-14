@@ -26,7 +26,7 @@ public class ElevatorModel {
         }
         floors = new ArrayList<>(numberOfFloors);
         for(int i = 0; i < numberOfFloors; ++i) {
-            floors.add(new Floor(false, false, false));
+            floors.add(new Floor(false, false, false, true));
         }
 
         this.floorHeight = floorHeight;

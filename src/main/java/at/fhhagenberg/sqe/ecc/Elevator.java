@@ -29,7 +29,7 @@ public class Elevator {
     public Elevator(int numberOfFloors) {
         floors = new ArrayList<>();
         for(int i = 0; i < numberOfFloors; ++i) {
-            floors.add(new Floor(false, false, false));
+            floors.add(new Floor(false, false, false, true));
         }
     }
 
@@ -37,10 +37,10 @@ public class Elevator {
      * Sets the status of a floor request button on a specified elevator (on/off).
      * @param floor Number of the floor requesting.
      * @param value Set button to on or off.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException thrown if floor does not exist
      */
     public void setElevatorButton(int floor, boolean value) throws IllegalArgumentException {
-        if(floor >= floors.size())
+        if(floor < 0 || floor >= floors.size())
             throw new IllegalArgumentException();
 
         floors.get(floor).setFloorRequestButton(value);
@@ -122,7 +122,7 @@ public class Elevator {
      * Provides the status of a floor request button on the elevator.
      * @param floor The number of the floor from which the button status is requested.
      * @return True if button is activated, false otherwise.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException thrown if floor does not exist
      */
     public boolean getElevatorButton(int floor) throws IllegalArgumentException {
         if(floor >= 0 && floor < floors.size())
@@ -135,10 +135,10 @@ public class Elevator {
      * Provides information if the elevator services the specified floor.
      * @param floor The number of the floor to be checked if it is serviced by the elevator.
      * @return True if the floor is serviced, false otherwise.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException thrown if floor does not exist
      */
     public boolean getServicesFloors(int floor) throws IllegalArgumentException {
-        if(floor < 0 && floor >= floors.size())
+        if(floor < 0 || floor >= floors.size())
             throw new IllegalArgumentException();
 
         return floors.get(floor).isServiced();
@@ -147,8 +147,12 @@ public class Elevator {
     /**
      * Setter for committed direction.
      * @param committedDirection The value to be set.
+     * @throws IllegalArgumentException thrown if the commited direction is invalid (neither up/down nor uncommited)
      */
-    public void setCommittedDirection(int committedDirection) {
+    public void setCommittedDirection(int committedDirection) throws IllegalArgumentException {
+        if (committedDirection < IElevator.ELEVATOR_DIRECTION_UP || committedDirection > IElevator.ELEVATOR_DIRECTION_UNCOMMITTED) {
+            throw new IllegalArgumentException("commited direction is invalid");
+        }
         this.committedDirection = committedDirection;
     }
 
@@ -220,7 +224,7 @@ public class Elevator {
      * Setter to specify which floors are serviced by the elevator.
      * @param floor The number of the floor.
      * @param service If true, elevator will start to service given floor. If false, elevator will stop servicing the given floor.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException thrown if floor does not exist
      */
     public void setServicesFloors(int floor, boolean service) throws IllegalArgumentException {
         if(floor >= 0 && floor < floors.size())
