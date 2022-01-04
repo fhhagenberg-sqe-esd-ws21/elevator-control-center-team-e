@@ -285,14 +285,11 @@ public class ElevatorModelUpdaterTest {
         model.setFloorButtonDown(0, true);
 
         when(mockedInterface.getFloorButtonDown(0)).thenThrow(RemoteException.class);
-        when(mockedInterface.getFloorButtonDown(1)).thenThrow(RemoteException.class);
 
         updater.UpdateModel();
 
         verify(mockedInterface, times(1)).getFloorButtonDown(0);
-        verify(mockedInterface, times(1)).getFloorButtonDown(1);
         assertTrue(model.getFloorButtonDown(0));
-        assertFalse(model.getFloorButtonDown(1));
     }
 
     @Test
@@ -318,14 +315,11 @@ public class ElevatorModelUpdaterTest {
         model.setFloorButtonUp(0, true);
 
         when(mockedInterface.getFloorButtonUp(0)).thenThrow(RemoteException.class);
-        when(mockedInterface.getFloorButtonUp(1)).thenThrow(RemoteException.class);
 
         updater.UpdateModel();
 
         verify(mockedInterface, times(1)).getFloorButtonUp(0);
-        verify(mockedInterface, times(1)).getFloorButtonUp(1);
         assertTrue(model.getFloorButtonUp(0));
-        assertFalse(model.getFloorButtonUp(1));
     }
 
     @Test
@@ -377,14 +371,11 @@ public class ElevatorModelUpdaterTest {
         model.setServicesFloors(0,1, true);
 
         when(mockedInterface.getServicesFloors(0,0)).thenThrow(RemoteException.class);
-        when(mockedInterface.getServicesFloors(0,1)).thenThrow(RemoteException.class);
 
         updater.UpdateModel();
 
         verify(mockedInterface, times(1)).getServicesFloors(0,0);
-        verify(mockedInterface, times(1)).getServicesFloors(0,1);
         assertFalse(model.getServicesFloors(0,0));
-        assertTrue(model.getServicesFloors(0,1));
     }
 
     @Test
@@ -408,16 +399,12 @@ public class ElevatorModelUpdaterTest {
         ElevatorModel model = new ElevatorModel(1, 2, 2500);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedInterface, model);
         model.setElevatorButton(0,0, false);
-        model.setElevatorButton(0,1, true);
 
         when(mockedInterface.getElevatorButton(0,0)).thenThrow(RemoteException.class);
-        when(mockedInterface.getElevatorButton(0,1)).thenThrow(RemoteException.class);
 
         updater.UpdateModel();
 
         verify(mockedInterface, times(1)).getElevatorButton(0,0);
-        verify(mockedInterface, times(1)).getElevatorButton(0,1);
         assertFalse(model.getElevatorButton(0,0));
-        assertTrue(model.getElevatorButton(0,1));
     }
 }
