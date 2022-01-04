@@ -56,7 +56,6 @@ public class ElevatorModelUpdater {
 			model.setClockTick(elevatorInterface.getClockTick());
 		} catch (RemoteException e) {
 			System.err.println(e.getMessage());
-			e.printStackTrace();
 		}
 		
 		
