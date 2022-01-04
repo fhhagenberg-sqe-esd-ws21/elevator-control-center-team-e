@@ -15,7 +15,7 @@ public class ElevatorMain extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
     	
-    	ElevatorModel model = new ElevatorModel(3, 2, 230);
+    	ElevatorModel model = new ElevatorModel(5, 15, 230);
     	
     	
     	FXMLLoader loader = new FXMLLoader();
@@ -27,6 +27,7 @@ public class ElevatorMain extends Application{
         loader.<ElevatorGui>getController().InitGui();
     	
         Scene scene = new Scene(content);
+        scene.getStylesheets().add(getClass().getResource("/stylesheet.css").toString());
         primaryStage.setScene(scene);
         primaryStage.show();
     }

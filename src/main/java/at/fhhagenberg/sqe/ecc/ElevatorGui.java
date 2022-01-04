@@ -50,6 +50,8 @@ public class ElevatorGui implements EventHandler {
 	private AnchorPane ConstructElevator(int number) {
 
 		Label title = new Label("Elevator " + Integer.toString(number));
+		title.getStyleClass().add("elevator-title");
+		
 		Button buttonManual = new Button("Manual");
 		buttonManual.setId("buttonManual" + Integer.toString(number));
 		buttonManual.getStyleClass().add("manual");
@@ -112,6 +114,7 @@ public class ElevatorGui implements EventHandler {
 
 		AnchorPane pane = new AnchorPane(content);
 		pane.setId("Elevator" + Integer.toString(number)); // #Elevator1
+		content.getStyleClass().add("elevator");
 
 		return pane;
 	}
@@ -128,13 +131,23 @@ public class ElevatorGui implements EventHandler {
 			Label down = new Label("DOWN");
 			down.getStyleClass().add("btn-down");
 			down.setMinWidth(50);
+			
+			Label floorLabel = new Label(Integer.toString(i));
+			
+			down.getStyleClass().add("call-button-label");
+			up.getStyleClass().add("call-button-label");
+			floorLabel.getStyleClass().add("call-button-label");
+			
 
 			floor.getChildren().add(up);
-			floor.getChildren().add(new Label(Integer.toString(i)));
+			floor.getChildren().add(floorLabel);
 			floor.getChildren().add(down);
+			floor.getStyleClass().add("call-button-floor-box");
 
 			callButtons.getChildren().add(floor);
 		}
+		
+		elevators.getStyleClass().add("elevator-box");
 
 		for (int i = 0; i < model.getNumOfElevators(); ++i) {
 			AnchorPane pane = this.ConstructElevator(i);
