@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -55,6 +56,7 @@ public class ElevatorGuiTest {
 		Button btnUp = robot.lookup("#Elevator0 .btn-up").<Button>query();
 		Button btnDown = robot.lookup("#Elevator0 .btn-down").<Button>query();
 		
+		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator0 .btn-down", hasText("DOWN"));
 		verifyThat("#Elevator0 .btn-up", hasText("UP"));
 		assertEquals(Color.BLACK, btnUp.getTextFill());
@@ -65,6 +67,7 @@ public class ElevatorGuiTest {
 	public void testSetTargetFloor(FxRobot robot) {
 		
 		gui.setTargetFloor(1, 1);
+		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator1 .target-label", hasText("Target: 1"));
 	}
 	
@@ -72,6 +75,7 @@ public class ElevatorGuiTest {
 	public void testSetElevatorAccel(FxRobot robot) {
 		
 		gui.setElevatorAccel(1, 129);
+		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator1 .accel-label", hasText("Accel: 129"));
 	}
 	
@@ -84,6 +88,7 @@ public class ElevatorGuiTest {
 		ObservableList<Node> floorList= floorBox.getChildren();
 		Button floor = (Button) floorList.get(floorList.size()-1-1);
 		
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals("1", floor.getText());
 		assertEquals(Color.GREEN, floor.getTextFill());
 	}
@@ -92,6 +97,8 @@ public class ElevatorGuiTest {
 	public void testSetElevatorDoorStatus(FxRobot robot) {
 		
 		gui.setElevatorDoorStatus(2, IElevator.ELEVATOR_DOORS_CLOSING);
+		
+		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator2 .doors-label", hasText("Doors: CLOSING"));
 	}
 	
@@ -99,6 +106,8 @@ public class ElevatorGuiTest {
 	public void testSetElevatorFloor(FxRobot robot) {
 		
 		gui.setElevatorFloor(2, 0);
+		
+		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator2 .floor-label", hasText("Floor: 0"));
 	}
 	
@@ -106,6 +115,8 @@ public class ElevatorGuiTest {
 	public void testSetElevatorPosition(FxRobot robot) {
 		
 		gui.setElevatorPosition(0, 120);
+		
+		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator0 .position-label", hasText("Position: 120"));
 	}
 	
@@ -113,6 +124,8 @@ public class ElevatorGuiTest {
 	public void testSetElevatorSpeed(FxRobot robot) {
 		
 		gui.setElevatorSpeed(1, 56);
+		
+		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator1 .speed-label", hasText("Speed: 56"));
 	}
 	
@@ -120,12 +133,16 @@ public class ElevatorGuiTest {
 	public void testSetElevatorWeight(FxRobot robot) {
 		
 		gui.setElevatorWeight(2, 489);
+		
+		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator2 .weight-label", hasText("Weight: 489"));
 	}
 	
 	@Test
 	public void testSetElevatorCapacity(FxRobot robot) {
 		gui.setElevatorCapacity(1, 12);
+		
+		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator1 .capacity-label", hasText("Capacity: 12"));
 	}
 	
@@ -136,10 +153,12 @@ public class ElevatorGuiTest {
 		
 		Label button = robot.lookup("#floor0 .btn-up").<Label>query();
 		
+		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#floor0 .btn-up", hasText("UP"));
 		assertEquals(Color.RED, button.getTextFill());
 		
 		gui.setFloorButtonUp(0, false);
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(Color.BLACK, button.getTextFill());
 	}
 
@@ -150,10 +169,12 @@ public class ElevatorGuiTest {
 		
 		Label button = robot.lookup("#floor1 .btn-down").<Label>query();
 		
+		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#floor1 .btn-down", hasText("DOWN"));
 		assertEquals(Color.RED, button.getTextFill());
 		
 		gui.setFloorButtonDown(1, false);
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(Color.BLACK, button.getTextFill());
 	}
 	
@@ -166,6 +187,7 @@ public class ElevatorGuiTest {
 		ObservableList<Node> floorList= floorBox.getChildren();
 		Button floor = (Button) floorList.get(floorList.size()-1-0);
 		
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals("0", floor.getText());
 		assertTrue(floor.getStyleClass().contains("disabledButton"));
 	}
