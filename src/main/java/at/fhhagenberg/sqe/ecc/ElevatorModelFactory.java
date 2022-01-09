@@ -9,9 +9,9 @@ import java.util.EventListener;
  */
 public class ElevatorModelFactory {
 
-    ElevatorHardwareManager hwManager;
+    IElevatorHardwareManager hwManager;
 
-    public ElevatorModelFactory(ElevatorHardwareManager hwManager) {
+    public ElevatorModelFactory(IElevatorHardwareManager hwManager) {
         this.hwManager = hwManager;
     }
 

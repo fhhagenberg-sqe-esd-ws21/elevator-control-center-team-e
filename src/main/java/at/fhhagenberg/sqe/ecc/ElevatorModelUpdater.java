@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
  */
 public class ElevatorModelUpdater {
 
-	ElevatorHardwareManager hwManager;
+	IElevatorHardwareManager hwManager;
 	ElevatorModel model;
 
 	/**
@@ -20,7 +20,7 @@ public class ElevatorModelUpdater {
 	 * @param model             The model which should be used to store the
 	 *                          information at.
 	 */
-	public ElevatorModelUpdater(ElevatorHardwareManager hwManager, ElevatorModel model) {
+	public ElevatorModelUpdater(IElevatorHardwareManager hwManager, ElevatorModel model) {
 		this.hwManager = hwManager;
 		this.model = model;
 	}
@@ -33,26 +33,73 @@ public class ElevatorModelUpdater {
 	public void UpdateModel() {
 		try {
 			for (int i = 0; i < model.getNumOfElevators(); ++i) {
-				model.setCommittedDirection(i, hwManager.getCommittedDirection(i));
-				model.setElevatorAccel(i, hwManager.getElevatorAccel(i));
-				model.setElevatorDoorStatus(i, hwManager.getElevatorDoorStatus(i));
-				model.setElevatorFloor(i, hwManager.getElevatorFloor(i));
-				model.setElevatorPosition(i, hwManager.getElevatorPosition(i));
-				model.setElevatorSpeed(i, hwManager.getElevatorSpeed(i));
-				model.setElevatorWeight(i, hwManager.getElevatorWeight(i));
-				model.setElevatorCapacity(i, hwManager.getElevatorCapacity(i));
-				model.setTarget(i, hwManager.getTarget(i));
+
+				int result = hwManager.getCommittedDirection(i);
+				if(model.getCommittedDirection(i) != result) {
+					model.setCommittedDirection(i, result);
+				}
+
+				result = hwManager.getElevatorAccel(i);
+				if(model.getElevatorAccel(i) != result) {
+					model.setElevatorAccel(i, result);
+				}
+				
+				result = hwManager.getElevatorDoorStatus(i);
+				if(model.getElevatorDoorStatus(i) != result) {
+					model.setElevatorDoorStatus(i, result);
+				}
+				
+				result = hwManager.getElevatorFloor(i);
+				if(model.getElevatorFloor(i) != result) {
+					model.setElevatorFloor(i, result);
+				}
+				
+				result = hwManager.getElevatorPosition(i);
+				if(model.getElevatorPosition(i) != result) {
+					model.setElevatorPosition(i, result);
+				}
+				
+				result = hwManager.getElevatorSpeed(i);
+				if(model.getElevatorSpeed(i) != result) {
+					model.setElevatorSpeed(i, result);
+				}
+				
+				result = hwManager.getElevatorWeight(i);
+				if(model.getElevatorWeight(i) != result) {
+					model.setElevatorWeight(i, result);
+				}
+				
+				result = hwManager.getElevatorCapacity(i);
+				if(model.getElevatorCapacity(i) != result) {
+					model.setElevatorCapacity(i, result);
+				}
+				
+				result = hwManager.getTarget(i);
+				if(model.getTarget(i) != result) {
+					model.setTarget(i, result);
+				}
 
 				UpdateServicedFloors(i);
 				UpdateElevatorButtons(i);
 			}
 
 			for (int i = 0; i < model.getNumOfFloors(); ++i) {
-				model.setFloorButtonDown(i, hwManager.getFloorButtonDown(i));
-				model.setFloorButtonUp(i, hwManager.getFloorButtonUp(i));
+				boolean bRes = hwManager.getFloorButtonDown(i);
+				if(model.getFloorButtonDown(i) != bRes) {
+					model.setFloorButtonDown(i, bRes);
+				}
+
+				bRes = hwManager.getFloorButtonUp(i);
+				if(model.getFloorButtonUp(i) != bRes) {
+					model.setFloorButtonUp(i, bRes);
+				}
 			}
 
-			model.setClockTick(hwManager.getClockTick());
+			var clockTickData = hwManager.getClockTick();
+			if(model.getClockTick() != clockTickData) {
+				model.setClockTick(clockTickData);
+			}
+
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
@@ -60,13 +107,20 @@ public class ElevatorModelUpdater {
 
 	private void UpdateServicedFloors(int elevatorNumber) throws RemoteException {
 		for (int i = 0; i < model.getNumOfFloors(); ++i) {
-			model.setServicesFloors(elevatorNumber, i, hwManager.getServicesFloors(elevatorNumber, i));
+
+			var result = hwManager.getServicesFloors(elevatorNumber, i);
+			if(model.getServicesFloors(elevatorNumber, i) != result) {
+				model.setServicesFloors(elevatorNumber, i, result);
+			}
 		}
 	}
 
 	private void UpdateElevatorButtons(int elevatorNumber) throws RemoteException {
 		for (int i = 0; i < model.getNumOfFloors(); ++i) {
-			model.setElevatorButton(elevatorNumber, i, hwManager.getElevatorButton(elevatorNumber, i));
+			var result = hwManager.getElevatorButton(elevatorNumber, i);
+			if(model.getElevatorButton(elevatorNumber, i) != result) {
+				model.setElevatorButton(elevatorNumber, i, result);
+			}
 		}
 	}
 }

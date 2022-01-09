@@ -19,53 +19,55 @@ public class ElevatorGuiUpdater {
             this.gui = gui;
         }
 
-        public void UpdateGui() {
-
-            System.out.println("Runnin GUI update!");
-
-            for(int i = 0; i < model.getNumOfElevators(); i++) {
-                gui.setCommitedDirection(i, model.getCommittedDirection(i));
-                gui.setTargetFloor(i, model.getTarget(i));
-                gui.setElevatorAccel(i, model.getElevatorAccel(i));
-                gui.setElevatorDoorStatus(i, model.getElevatorDoorStatus(i));
-                gui.setElevatorFloor(i, model.getElevatorFloor(i));
-                gui.setElevatorPosition(i, model.getElevatorPosition(i));
-                gui.setElevatorSpeed(i, model.getElevatorSpeed(i));
-                gui.setElevatorWeight(i, model.getElevatorWeight(i));
-                gui.setElevatorCapacity(i, model.getElevatorCapacity(i));
-                UpdateElevatorButtons(i);
-                UpdateServicedFloors(i);
-            }
-
-            for(int i = 0; i < model.getNumOfFloors(); i++) {
-                gui.setFloorButtonUp(i, model.getFloorButtonUp(i));
-                gui.setFloorButtonDown(i, model.getFloorButtonDown(i));
-            }
+        public void updateCommittedDirection(int elevator) {
+            Platform.runLater(() -> gui.setServicesFloors(elevator));
         }
 
-        private void UpdateServicedFloors(int elevatorNumber) {
-
-
-            for (int i = 0; i < model.getNumOfFloors(); ++i) {
-                gui.setServicesFloors(elevatorNumber, i, model.getServicesFloors(elevatorNumber, i));
-
-                if(elevatorNumber == 2) {
-                    System.out.print("SetServicesFloors: ");
-                    System.out.println(model.getServicesFloors(elevatorNumber, i));
-                }
-            }
+        public void updateSetTargetFloor(int elevator) {
+            Platform.runLater(() -> gui.setTargetFloor(elevator));
         }
 
-        private void UpdateElevatorButtons(int elevatorNumber) {
-            for (int i = 0; i < model.getNumOfFloors(); ++i) {
-                gui.setElevatorButton(elevatorNumber, i, model.getElevatorButton(elevatorNumber, i));
+        public void updateSetElevatorAccel(int elevator) {
+            Platform.runLater(() -> gui.setElevatorAccel(elevator));
+        }
 
-                if(elevatorNumber == 2) {
-                    System.out.print("SetElevatorButtons: ");
-                    System.out.println(model.getServicesFloors(elevatorNumber, i));
-                }
-            }
+        public void setElevatorDoorStatus(int elevator) {
+            Platform.runLater(() -> gui.setElevatorDoorStatus(elevator));
+        }
 
+        public void setElevatorFloor(int elevator) {
+            Platform.runLater(() -> gui.setElevatorFloor(elevator));
+        }
 
+        public void setElevatorPosition(int elevator) {
+            Platform.runLater(() -> gui.setElevatorPosition(elevator));
+        }
+
+        public void setElevatorSpeed(int elevator) {
+            Platform.runLater(() -> gui.setElevatorSpeed(elevator));
+        }
+
+        public void setElevatorWeight(int elevator) {
+            Platform.runLater(() -> gui.setElevatorWeight(elevator));
+        }
+
+        public void setElevatorCapacity(int elevator) {
+            Platform.runLater(() -> gui.setElevatorCapacity(elevator));
+        }
+
+        public void setServicedFloors(int elevator, int floor) {
+            Platform.runLater(() -> gui.setServicesFloors(elevator, floor));
+        }
+
+        public void setFloorButtonUp(int floor) {
+            Platform.runLater(() -> gui.setFloorButtonUp(floor));
+        }
+
+        public void setFloorButtonDown(int floor) {
+            Platform.runLater(() -> gui.setFloorButtonDown(floor));
+        }
+
+        public void setElevatorButton(int elevator) {
+            Platform.runLater(() -> gui.setElevatorButton(elevator));
         }
 }

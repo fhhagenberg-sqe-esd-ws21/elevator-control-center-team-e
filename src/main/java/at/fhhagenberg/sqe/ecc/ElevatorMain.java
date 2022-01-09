@@ -19,10 +19,10 @@ public class ElevatorMain extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        ElevatorHardwareManager hwManager = new ElevatorHardwareManager();
+        IElevatorHardwareManager hwManager = new MockElevatorHardwareManager();
         ElevatorModelFactory modelFactory = new ElevatorModelFactory(hwManager);
         ElevatorModel model = modelFactory.CreateElevatorControlCenter();
-        ElevatorModelUpdater modelUpdater = new ElevatorModelUpdater(hwManager, model);
+
     	
     	FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUIMock.fxml"));
@@ -33,6 +33,7 @@ public class ElevatorMain extends Application{
         gui.setHwManager(hwManager);
         gui.InitGui();
 
+        ElevatorModelUpdater modelUpdater = new ElevatorModelUpdater(hwManager, model, gui);
         ElevatorGuiUpdater guiUpdater = new ElevatorGuiUpdater(model, gui);
 
         Scene scene = new Scene(content);
@@ -45,9 +46,9 @@ public class ElevatorMain extends Application{
             public void run() {
                 // Invoke method(s) to do the work
                 modelUpdater.UpdateModel();
-                guiUpdater.UpdateGui();
+                //guiUpdater.UpdateGui();
             }
         };
-        executor.scheduleAtFixedRate(periodicTask, 0, 10, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(periodicTask, 0, 100, TimeUnit.MILLISECONDS);
     }
 }

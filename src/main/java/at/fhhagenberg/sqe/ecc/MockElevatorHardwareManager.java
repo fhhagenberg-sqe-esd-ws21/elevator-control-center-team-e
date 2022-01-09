@@ -4,139 +4,137 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ElevatorHardwareManager implements IElevator {
+public class MockElevatorHardwareManager implements IElevatorHardwareManager {
 
-    private IElevator controller;
+    private List<List<Boolean>> servicesFloors;
+    private List<Integer> commitedDirecton;
+    private List<Integer> targetFloor;
 
-    public ElevatorHardwareManager() {
-//        try {
-//            controller = (IElevator) Naming.lookup("rmi://host.docker.internal/ElevatorSim");
-//        }
-//        catch (MalformedURLException e) {
-//            System.out.println(e.getMessage());
-//        } catch (NotBoundException e) {
-//            System.out.println(e.getMessage());
-//        } catch (RemoteException e) {
-//            System.out.println(e.getMessage());
-//        }
+    private static final int constantNumberOfElevators = 4;
+    private static final int constantNumberOfFloors = 10;
+
+    public MockElevatorHardwareManager() {
+        servicesFloors = new ArrayList<>();
+        commitedDirecton = new ArrayList<>();
+        targetFloor = new ArrayList<>();
+
+        for (int i = 0; i < constantNumberOfElevators; i++) {
+            List<Boolean> tmp = new ArrayList<>();
+            for(int j = 0; j < constantNumberOfFloors; j++) {
+                tmp.add(false);
+            }
+            servicesFloors.add(tmp);
+            commitedDirecton.add(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
+            targetFloor.add(0);
+        }
     }
 
     @Override
     public int getCommittedDirection(int elevatorNumber) throws RemoteException {
-
-        //return controller.getCommittedDirection(elevatorNumber);
-        return 2;
+        return commitedDirecton.get(elevatorNumber);
     }
 
     @Override
     public int getElevatorAccel(int elevatorNumber) throws RemoteException {
-        //return controller.getElevatorAccel(elevatorNumber);
         return 536 + elevatorNumber;
     }
 
     @Override
     public boolean getElevatorButton(int elevatorNumber, int floor) throws RemoteException {
-        //return controller.getElevatorButton(elevatorNumber, floor);
         return true;
     }
 
     @Override
     public int getElevatorDoorStatus(int elevatorNumber) throws RemoteException {
-        //return controller.getElevatorDoorStatus(elevatorNumber);
         return 3;
     }
 
     @Override
     public int getElevatorFloor(int elevatorNumber) throws RemoteException {
-        //return controller.getElevatorFloor(elevatorNumber);
         return 2;
     }
 
     @Override
     public int getElevatorNum() throws RemoteException {
-        //return controller.getElevatorNum();
-        return 7;
+        return constantNumberOfElevators;
     }
 
     @Override
     public int getElevatorPosition(int elevatorNumber) throws RemoteException {
-        //return controller.getElevatorPosition(elevatorNumber);
         return 3;
     }
 
     @Override
     public int getElevatorSpeed(int elevatorNumber) throws RemoteException {
-        //return controller.getElevatorSpeed(elevatorNumber);
         return 789 + elevatorNumber;
     }
 
     @Override
     public int getElevatorWeight(int elevatorNumber) throws RemoteException {
-        //return controller.getElevatorWeight(elevatorNumber);
         return 444 + elevatorNumber;
     }
 
     @Override
     public int getElevatorCapacity(int elevatorNumber) throws RemoteException {
-        //return controller.getElevatorCapacity(elevatorNumber);
         return 1234 + elevatorNumber;
     }
 
     @Override
     public boolean getFloorButtonDown(int floor) throws RemoteException {
-        //return controller.getFloorButtonDown(floor);
         return false;
     }
 
     @Override
     public boolean getFloorButtonUp(int floor) throws RemoteException {
-        //return controller.getFloorButtonUp(floor);
         return false;
     }
 
     @Override
     public int getFloorHeight() throws RemoteException {
-        //return controller.getFloorHeight();
         return 4711;
     }
 
     @Override
     public int getFloorNum() throws RemoteException {
-        //return controller.getFloorNum();
-        return 10;
+        return constantNumberOfFloors;
     }
 
     @Override
     public boolean getServicesFloors(int elevatorNumber, int floor) throws RemoteException {
-        //return controller.getServicesFloors(elevatorNumber, floor);
-        return true;
+
+        if(elevatorNumber == 0 && floor == 0) {
+            System.out.print("Serviced: ");
+            System.out.println(servicesFloors.get(elevatorNumber).get(floor));
+        }
+
+        return servicesFloors.get(elevatorNumber).get(floor);
     }
 
     @Override
     public int getTarget(int elevatorNumber) throws RemoteException {
-        //return controller.getTarget(elevatorNumber);
-        return 5;
+        return targetFloor.get(elevatorNumber);
     }
 
     @Override
     public void setCommittedDirection(int elevatorNumber, int direction) throws RemoteException {
-        //controller.setCommittedDirection(elevatorNumber, direction);
+        commitedDirecton.set(elevatorNumber, direction);
     }
 
     @Override
     public void setServicesFloors(int elevatorNumber, int floor, boolean service) throws RemoteException {
-        //controller.setServicesFloors(elevatorNumber, floor, service);
+        servicesFloors.get(elevatorNumber).set(floor, service);
     }
 
     @Override
     public void setTarget(int elevatorNumber, int target) throws RemoteException {
-        //controller.setTarget(elevatorNumber, target);
+        targetFloor.set(elevatorNumber, target);
     }
 
     @Override
     public long getClockTick() throws RemoteException {
-        //return controller.getClockTick();
         return 123456789;
     }
 
@@ -144,7 +142,12 @@ public class ElevatorHardwareManager implements IElevator {
         try {
             setServicesFloors(elevatorNumber, floor, service);
         } catch (RemoteException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
+        }
+
+        if(elevatorNumber == 0 && floor == 0) {
+            System.out.print("Serviced: ");
+            System.out.println(servicesFloors.get(elevatorNumber).get(floor));
         }
     }
 
@@ -152,7 +155,7 @@ public class ElevatorHardwareManager implements IElevator {
         try {
             setTarget(elevatorNumber, target);
         } catch (RemoteException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
@@ -160,7 +163,7 @@ public class ElevatorHardwareManager implements IElevator {
         try {
             setCommittedDirection(elevatorNumber, direction);
         } catch (RemoteException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 }
