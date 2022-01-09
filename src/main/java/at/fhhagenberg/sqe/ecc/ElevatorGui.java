@@ -212,14 +212,13 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 		this.hwManager = hwManager;
 	}
 
-	public void setCommitedDirection(int elevator, int direction) {
-		Platform.runLater(() -> {
+	public void setCommitedDirection(int elevator) {
 			Node btnUp = elevators.lookup("#Elevator" + Integer.toString(elevator) + " .btn-up");
 			btnUp.setStyle("-fx-text-fill: black");
 			Node btnDown = elevators.lookup("#Elevator" + Integer.toString(elevator) + " .btn-down");
 			btnDown.setStyle("-fx-text-fill: black");
 	
-			switch (direction) {
+			switch (model.getCommittedDirection(elevator)) {
 			case IElevator.ELEVATOR_DIRECTION_DOWN:
 				btnDown.setStyle("-fx-text-fill: red");
 				break;
@@ -229,44 +228,39 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 			default:
 				break;
 			}
-		});
 	}
 
-	public void setTargetFloor(int elevator, int floor) {
-		Platform.runLater(() -> {
+	public void setTargetFloor(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .target-label");
-			label.setText("Target: " + Integer.toString(floor));
-		});
+			label.setText("Target: " + Integer.toString(model.getTarget(elevator)));
 	}
 
-	public void setElevatorAccel(int elevator, int value) {
-		Platform.runLater(() -> {
+	public void setElevatorAccel(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .accel-label");
-			label.setText("Accel: " + Integer.toString(value));
-		});
+			label.setText("Accel: " + Integer.toString(model.getElevatorAccel(elevator)));
 	}
 
-	public void setElevatorButton(int elevator, int floor, boolean pressed) {
-		Platform.runLater(() -> {
+	public void setElevatorButton(int elevator) {
 			VBox floorBox = (VBox) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .elevator-floors");
 			ObservableList<Node> floorList = floorBox.getChildren();
-			Button b = (Button) floorList.get(floorList.size() - 1 - floor);
-	
-			if (pressed) {
-				b.setTextFill(Color.GREEN);
-			} else {
-				b.setTextFill(Color.BLACK);
+			for(int i = 0; i < floorList.size(); ++i)
+			{
+				Button b = (Button) floorList.get(floorList.size() - 1 - i);
+				
+				if (model.getElevatorButton(elevator, i)) {
+					b.setTextFill(Color.GREEN);
+				} else {
+					b.setTextFill(Color.BLACK);
+				}
 			}
-		});
 	}
 
-	public void setElevatorDoorStatus(int elevator, int status) {
-		Platform.runLater(() -> {
+	public void setElevatorDoorStatus(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .doors-label");
 
 			final String statusText;
 
-			switch (status) {
+			switch (model.getElevatorDoorStatus(elevator)) {
 			case IElevator.ELEVATOR_DOORS_CLOSED:
 				statusText = "CLOSED";
 				break;
@@ -284,79 +278,62 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 				break;
 			}
 			label.setText("Doors: " + statusText);
-		});
 	}
 
-	public void setElevatorFloor(int elevator, int floor) {
-		Platform.runLater(() -> {
+	public void setElevatorFloor(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .floor-label");
-			label.setText("Floor: " + Integer.toString(floor));
-		});
+			label.setText("Floor: " + Integer.toString(model.getElevatorFloor(elevator)));
 	}
 
-	public void setElevatorPosition(int elevator, int value) {
-		Platform.runLater(() -> {
+	public void setElevatorPosition(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .position-label");
-			label.setText("Position: " + Integer.toString(value));
-		});
+			label.setText("Position: " + Integer.toString(model.getElevatorPosition(elevator)));
 	}
 
-	public void setElevatorSpeed(int elevator, int value) {
-		Platform.runLater(() -> {
+	public void setElevatorSpeed(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .speed-label");
-			label.setText("Speed: " + Integer.toString(value));
-		});
+			label.setText("Speed: " + Integer.toString(model.getElevatorSpeed(elevator)));
 	}
 
-	public void setElevatorWeight(int elevator, int value) {
-		Platform.runLater(() -> {
+	public void setElevatorWeight(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .weight-label");
-			label.setText("Weight: " + Integer.toString(value));
-		});
+			label.setText("Weight: " + Integer.toString(model.getElevatorWeight(elevator)));
 	}
 
-	public void setElevatorCapacity(int elevator, int value) {
-		Platform.runLater(() -> {
+	public void setElevatorCapacity(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .capacity-label");
-			label.setText("Capacity: " + Integer.toString(value));
-		});
+			label.setText("Capacity: " + Integer.toString(model.getElevatorCapacity(elevator)));
 	}
 
-	public void setFloorButtonUp(int floor, boolean value) {
-		Platform.runLater(() -> {
+	public void setFloorButtonUp(int floor) {
 			Label btnUp = (Label) callButtons.lookup("#floor" + Integer.toString(floor) + " .btn-up");
 	
-			if (value) {
+			if (model.getFloorButtonUp(floor)) {
 				btnUp.setTextFill(Color.RED);
 			} else {
 				btnUp.setTextFill(Color.BLACK);
 			}
-		});
 	}
 
-	public void setFloorButtonDown(int floor, boolean value) {
-		Platform.runLater(() -> {
+	public void setFloorButtonDown(int floor) {
 			Label btnDown = (Label) callButtons.lookup("#floor" + Integer.toString(floor) + " .btn-down");
-			if (value) {
+			if (model.getFloorButtonDown(floor)) {
 				btnDown.setTextFill(Color.RED);
 			} else {
 				btnDown.setTextFill(Color.BLACK);
 			}
-		});
 	}
 	
-	public void setServicesFloors(int elevator, int floor, boolean service) {
-		Platform.runLater(() -> {
+	public void setServicesFloors(int elevator, int floor) {
 			VBox floorBox = (VBox) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .elevator-floors");
 			ObservableList<Node> floorList = floorBox.getChildren();
 			Button b = (Button) floorList.get(floorList.size() - 1 - floor);
 	
-			if (service) {
+			if (model.getServicesFloors(elevator, floor)) {
 				b.getStyleClass().remove("disabledButton");
 			} else {
 				b.getStyleClass().add("disabledButton");
 			}
-		});
 	}
 
 }
