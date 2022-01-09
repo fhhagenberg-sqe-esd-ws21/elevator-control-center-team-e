@@ -31,9 +31,6 @@ public class ElevatorModelUpdater {
 	 * method should be called every 100 milliseconds.
 	 */
 	public void UpdateModel() {
-
-		System.out.println("Running MODEL update!");
-
 		try {
 			for (int i = 0; i < model.getNumOfElevators(); ++i) {
 				model.setCommittedDirection(i, hwManager.getCommittedDirection(i));
@@ -56,12 +53,9 @@ public class ElevatorModelUpdater {
 			}
 
 			model.setClockTick(hwManager.getClockTick());
-		} catch (RemoteException e) {
+		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
-		
-		
-		System.out.println("Model Update DONE!");
 	}
 
 	private void UpdateServicedFloors(int elevatorNumber) throws RemoteException {
