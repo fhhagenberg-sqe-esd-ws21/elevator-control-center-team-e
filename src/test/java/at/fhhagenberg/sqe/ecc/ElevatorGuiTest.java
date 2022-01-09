@@ -7,6 +7,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
@@ -81,7 +82,7 @@ public class ElevatorGuiTest {
 		
 		VBox floorBox = (VBox) robot.lookup("#Elevator1 .elevator-floors").<VBox>query();
 		ObservableList<Node> floorList= floorBox.getChildren();
-		Label floor = (Label) floorList.get(floorList.size()-1-1);
+		Button floor = (Button) floorList.get(floorList.size()-1-1);
 		
 		assertEquals("1", floor.getText());
 		assertEquals(Color.GREEN, floor.getTextFill());
@@ -154,6 +155,19 @@ public class ElevatorGuiTest {
 		
 		gui.setFloorButtonDown(1, false);
 		assertEquals(Color.BLACK, button.getTextFill());
+	}
+	
+	@Test
+	public void testSetServicesFloor(FxRobot robot) {
+		
+		gui.setServicesFloors(2, 0, false);
+		
+		VBox floorBox = (VBox) robot.lookup("#Elevator2 .elevator-floors").<VBox>query();
+		ObservableList<Node> floorList= floorBox.getChildren();
+		Button floor = (Button) floorList.get(floorList.size()-1-0);
+		
+		assertEquals("0", floor.getText());
+		assertTrue(floor.getStyleClass().contains("disabledButton"));
 	}
 
 }

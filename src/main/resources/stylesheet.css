@@ -53,3 +53,7 @@
 .call-button-label{
 	-fx-min-width:40px;
 }
+
+.disabledButton{
+	-fx-background-color: red;
+}

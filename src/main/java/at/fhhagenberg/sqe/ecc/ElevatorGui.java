@@ -15,13 +15,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class ElevatorGui implements EventHandler {
+public class ElevatorGui implements EventHandler<MouseEvent> {
 
 	private ElevatorModel model;
 
@@ -31,18 +33,27 @@ public class ElevatorGui implements EventHandler {
 	private VBox callButtons;
 
 	@Override
-	public void handle(Event event) {
-		Node node = (Node) event.getSource();
-		int elevator = new Scanner(node.getId()).useDelimiter("\\D+").nextInt();
+	public void handle(MouseEvent event) {
+		Button b = (Button) event.getSource();
 
-		if (node.getStyleClass().contains("auto")) {
+		if (b.getStyleClass().contains("auto")) {
+			int elevator = new Scanner(b.getId()).useDelimiter("\\D+").nextInt();
 			Node btnManual = elevators.lookup("#buttonManual" + Integer.toString(elevator));
 			btnManual.setDisable(false);
-			node.setDisable(true);
-		} else if (node.getStyleClass().contains("manual")) {
+			b.setDisable(true);
+		} else if (b.getStyleClass().contains("manual")) {
+			int elevator = new Scanner(b.getId()).useDelimiter("\\D+").nextInt();
 			Node btnAuto = elevators.lookup("#buttonAuto" + Integer.toString(elevator));
 			btnAuto.setDisable(false);
-			node.setDisable(true);
+			b.setDisable(true);
+		} else if (b.getStyleClass().contains("floor-button")) {
+			if(event.getButton().equals(MouseButton.PRIMARY)) {
+			} else if (event.getButton().equals(MouseButton.SECONDARY)){
+				if(!b.getStyleClass().remove("disabledButton")) {
+					//b.getStyleClass().add("disabledButton");
+				}
+			}
+			System.out.println(b.getParent());
 		}
 
 	}
@@ -55,12 +66,12 @@ public class ElevatorGui implements EventHandler {
 		Button buttonManual = new Button("Manual");
 		buttonManual.setId("buttonManual" + Integer.toString(number));
 		buttonManual.getStyleClass().add("manual");
-		buttonManual.setOnAction(this);
+		buttonManual.setOnMouseClicked(this);
 
 		Button buttonAuto = new Button("Auto");
 		buttonAuto.setId("buttonAuto" + Integer.toString(number));
 		buttonAuto.getStyleClass().add("auto");
-		buttonAuto.setOnAction(this);
+		buttonAuto.setOnMouseClicked(this);
 
 		buttonManual.setDisable(true);
 
@@ -68,7 +79,10 @@ public class ElevatorGui implements EventHandler {
 		elevatorButtons.getStyleClass().add("elevator-floors");
 
 		for (int i = model.getNumOfFloors() - 1; i >= 0; --i) {
-			elevatorButtons.getChildren().add(new Label(Integer.toString(i)));
+			Button b = new Button(Integer.toString(i));
+			b.getStyleClass().add("floor-button");
+			b.setOnMouseClicked(this);
+			elevatorButtons.getChildren().add(b);
 		}
 
 		Label labelPosition = new Label("Position: ");
@@ -197,12 +211,12 @@ public class ElevatorGui implements EventHandler {
 	public void setElevatorButton(int elevator, int floor, boolean pressed) {
 		VBox floorBox = (VBox) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .elevator-floors");
 		ObservableList<Node> floorList = floorBox.getChildren();
-		Label lblFloor = (Label) floorList.get(floorList.size() - 1 - floor);
+		Button b = (Button) floorList.get(floorList.size() - 1 - floor);
 
 		if (pressed) {
-			lblFloor.setTextFill(Color.GREEN);
+			b.setTextFill(Color.GREEN);
 		} else {
-			lblFloor.setTextFill(Color.BLACK);
+			b.setTextFill(Color.BLACK);
 		}
 	}
 
@@ -288,6 +302,18 @@ public class ElevatorGui implements EventHandler {
 			btnDown.setTextFill(Color.BLACK);
 		}
 
+	}
+	
+	public void setServicesFloors(int elevator, int floor, boolean service) {
+		VBox floorBox = (VBox) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .elevator-floors");
+		ObservableList<Node> floorList = floorBox.getChildren();
+		Button b = (Button) floorList.get(floorList.size() - 1 - floor);
+
+		if (service) {
+			b.getStyleClass().remove("disabledButton");
+		} else {
+			b.getStyleClass().add("disabledButton");
+		}
 	}
 
 }
