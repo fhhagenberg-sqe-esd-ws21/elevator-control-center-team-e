@@ -19,6 +19,8 @@ public class ElevatorModel {
     private int floorHeight;
     private int loggingLevel;
 
+    private ElevatorGuiUpdater guiUpdater;
+
     public ElevatorModel(int numberOfElevators, int numberOfFloors, int floorHeight) {
         elevators = new ArrayList<>();
         for(int i = 0; i < numberOfElevators; ++i) {
@@ -47,6 +49,7 @@ public class ElevatorModel {
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setCommittedDirection(direction);
+        guiUpdater.updateCommittedDirection(elevatorNumber);
     }
 
     public int getCommittedDirection(int elevatorNumber) throws IllegalArgumentException {
@@ -68,6 +71,7 @@ public class ElevatorModel {
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setServicesFloors(floor, service);
+        guiUpdater.updateServicedFloors(elevatorNumber, floor);
     }
 
     public int getTarget(int elevatorNumber) throws IllegalArgumentException {
@@ -82,6 +86,7 @@ public class ElevatorModel {
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setTarget(target);
+        guiUpdater.updateTargetFloor(elevatorNumber);
     }
     
     public int getElevatorAccel(int elevatorNumber) throws IllegalArgumentException {
@@ -96,6 +101,7 @@ public class ElevatorModel {
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorAccel(value);
+        guiUpdater.updateElevatorAccel(elevatorNumber);
     }
     
     public boolean getElevatorButton(int elevatorNumber, int floor) throws IllegalArgumentException {
@@ -110,6 +116,7 @@ public class ElevatorModel {
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorButton(floor, value);
+        guiUpdater.updateElevatorButton(elevatorNumber);
     }
     
     public int getElevatorDoorStatus(int elevatorNumber) throws IllegalArgumentException {
@@ -124,6 +131,7 @@ public class ElevatorModel {
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorDoorStatus(doorStatus);
+        guiUpdater.updateElevatorDoorStatus(elevatorNumber);
     }
     
     public int getElevatorFloor(int elevatorNumber) throws IllegalArgumentException {
@@ -138,6 +146,7 @@ public class ElevatorModel {
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorFloor(floor);
+        guiUpdater.updateElevatorFloor(elevatorNumber);
     }
     
     public int getElevatorPosition(int elevatorNumber) throws IllegalArgumentException {
@@ -152,6 +161,7 @@ public class ElevatorModel {
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorPosition(position);
+        guiUpdater.updateElevatorPosition(elevatorNumber);
     }
     
     public int getElevatorSpeed(int elevatorNumber) throws IllegalArgumentException {
@@ -166,6 +176,7 @@ public class ElevatorModel {
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorSpeed(speed);
+        guiUpdater.updateElevatorSpeed(elevatorNumber);
     }
     
     public int getElevatorWeight(int elevatorNumber) throws IllegalArgumentException {
@@ -180,6 +191,7 @@ public class ElevatorModel {
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorWeight(weight);
+        guiUpdater.updateElevatorWeight(elevatorNumber);
     }
     
     public int getElevatorCapacity(int elevatorNumber) throws IllegalArgumentException {
@@ -194,6 +206,7 @@ public class ElevatorModel {
             throw new IllegalArgumentException();
 
         elevators.get(elevatorNumber).setElevatorCapacity(capacity);
+        guiUpdater.updateElevatorCapacity(elevatorNumber);
     }
     
     public boolean getFloorButtonDown(int floor) throws IllegalArgumentException {
@@ -208,6 +221,7 @@ public class ElevatorModel {
             throw new IllegalArgumentException();
 
         floors.get(floor).setFloorButtonDown(value);
+        guiUpdater.updateFloorButtonDown(floor);
     }
     
     public boolean getFloorButtonUp(int floor) throws IllegalArgumentException {
@@ -222,6 +236,7 @@ public class ElevatorModel {
             throw new IllegalArgumentException();
 
         floors.get(floor).setFloorButtonUp(value);
+        guiUpdater.updateFloorButtonUp(floor);
     }
     
     public int getLogging() {
@@ -242,5 +257,9 @@ public class ElevatorModel {
     
     public int getFloorHeight() {
         return this.floorHeight;
+    }
+
+    public void setGuiUpdater(ElevatorGuiUpdater guiUpdater) {
+        this.guiUpdater = guiUpdater;
     }
 }

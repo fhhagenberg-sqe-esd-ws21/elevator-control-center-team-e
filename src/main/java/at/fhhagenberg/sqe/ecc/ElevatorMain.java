@@ -33,8 +33,9 @@ public class ElevatorMain extends Application{
         gui.setHwManager(hwManager);
         gui.InitGui();
 
-        ElevatorModelUpdater modelUpdater = new ElevatorModelUpdater(hwManager, model, gui);
-        ElevatorGuiUpdater guiUpdater = new ElevatorGuiUpdater(model, gui);
+        ElevatorModelUpdater modelUpdater = new ElevatorModelUpdater(hwManager, model);
+        ElevatorGuiUpdater guiUpdater = new ElevatorGuiUpdater(gui);
+        model.setGuiUpdater(guiUpdater);
 
         Scene scene = new Scene(content);
         scene.getStylesheets().add(getClass().getResource("/stylesheet.css").toString());

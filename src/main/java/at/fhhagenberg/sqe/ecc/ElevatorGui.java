@@ -26,7 +26,7 @@ import javafx.scene.paint.Color;
 public class ElevatorGui implements EventHandler<MouseEvent> {
 
 	private ElevatorModel model;
-	private ElevatorHardwareManager hwManager;
+	private IElevatorHardwareManager hwManager;
 
 	@FXML
 	private HBox elevators;
@@ -208,7 +208,7 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 		this.model = model;
 	}
 
-	public void setHwManager(ElevatorHardwareManager hwManager) {
+	public void setHwManager(IElevatorHardwareManager hwManager) {
 		this.hwManager = hwManager;
 	}
 

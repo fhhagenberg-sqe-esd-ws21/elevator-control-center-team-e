@@ -10,64 +10,61 @@ import javafx.scene.paint.Color;
 import java.rmi.RemoteException;
 
 public class ElevatorGuiUpdater {
-
-        private ElevatorModel model;
         private ElevatorGui gui;
 
-        ElevatorGuiUpdater(ElevatorModel model, ElevatorGui gui) {
-            this.model = model;
+        ElevatorGuiUpdater(ElevatorGui gui) {
             this.gui = gui;
         }
 
         public void updateCommittedDirection(int elevator) {
-            Platform.runLater(() -> gui.setServicesFloors(elevator));
+            Platform.runLater(() -> gui.setCommitedDirection(elevator));
         }
 
-        public void updateSetTargetFloor(int elevator) {
+        public void updateTargetFloor(int elevator) {
             Platform.runLater(() -> gui.setTargetFloor(elevator));
         }
 
-        public void updateSetElevatorAccel(int elevator) {
+        public void updateElevatorAccel(int elevator) {
             Platform.runLater(() -> gui.setElevatorAccel(elevator));
         }
 
-        public void setElevatorDoorStatus(int elevator) {
+        public void updateElevatorDoorStatus(int elevator) {
             Platform.runLater(() -> gui.setElevatorDoorStatus(elevator));
         }
 
-        public void setElevatorFloor(int elevator) {
+        public void updateElevatorFloor(int elevator) {
             Platform.runLater(() -> gui.setElevatorFloor(elevator));
         }
 
-        public void setElevatorPosition(int elevator) {
+        public void updateElevatorPosition(int elevator) {
             Platform.runLater(() -> gui.setElevatorPosition(elevator));
         }
 
-        public void setElevatorSpeed(int elevator) {
+        public void updateElevatorSpeed(int elevator) {
             Platform.runLater(() -> gui.setElevatorSpeed(elevator));
         }
 
-        public void setElevatorWeight(int elevator) {
+        public void updateElevatorWeight(int elevator) {
             Platform.runLater(() -> gui.setElevatorWeight(elevator));
         }
 
-        public void setElevatorCapacity(int elevator) {
+        public void updateElevatorCapacity(int elevator) {
             Platform.runLater(() -> gui.setElevatorCapacity(elevator));
         }
 
-        public void setServicedFloors(int elevator, int floor) {
+        public void updateServicedFloors(int elevator, int floor) {
             Platform.runLater(() -> gui.setServicesFloors(elevator, floor));
         }
 
-        public void setFloorButtonUp(int floor) {
+        public void updateFloorButtonUp(int floor) {
             Platform.runLater(() -> gui.setFloorButtonUp(floor));
         }
 
-        public void setFloorButtonDown(int floor) {
+        public void updateFloorButtonDown(int floor) {
             Platform.runLater(() -> gui.setFloorButtonDown(floor));
         }
 
-        public void setElevatorButton(int elevator) {
+        public void updateElevatorButton(int elevator) {
             Platform.runLater(() -> gui.setElevatorButton(elevator));
         }
 }
