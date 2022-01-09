@@ -26,6 +26,7 @@ import javafx.scene.paint.Color;
 public class ElevatorGui implements EventHandler<MouseEvent> {
 
 	private ElevatorModel model;
+	private ElevatorHardwareManager hwManager;
 
 	@FXML
 	private HBox elevators;
@@ -52,9 +53,9 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 			int floor = floorList.getChildren().size() - 1 - floorList.getChildren().indexOf(b);
 			
 			if(event.getButton().equals(MouseButton.PRIMARY)) {
-				// set Target
+				hwManager.wrappedSetTarget(elevator, floor);
 			} else if (event.getButton().equals(MouseButton.SECONDARY)){
-				// set Services Floors
+				hwManager.wrappedSetServicesFloors(elevator, floor, !model.getServicesFloors(elevator, floor));
 			}
 			System.out.println(Integer.toString(elevator) + ", " + Integer.toString(floor));
 			
@@ -63,24 +64,27 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 					
 			if (model.getCommittedDirection(elevator) == IElevator.ELEVATOR_DIRECTION_UP) {
 				// set direction uncommited
+				hwManager.wrappedSetCommittedDirection(elevator, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
 			} else {
 				// set direction up
+				hwManager.wrappedSetCommittedDirection(elevator, IElevator.ELEVATOR_DIRECTION_UP);
 			}
 			
 			System.out.println(Integer.toString(elevator));
 			
-		} else if(b.getStyleClass().contains("btn-up")) {
+		} else if(b.getStyleClass().contains("btn-down")) {
 			int elevator = new Scanner(b.getId()).useDelimiter("\\D+").nextInt();
 			
 			if (model.getCommittedDirection(elevator) == IElevator.ELEVATOR_DIRECTION_DOWN) {
 				// set direction uncommited
+				hwManager.wrappedSetCommittedDirection(elevator, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
 			} else {
 				// set direction down
+				hwManager.wrappedSetCommittedDirection(elevator, IElevator.ELEVATOR_DIRECTION_DOWN);
 			}
 			
 			System.out.println(Integer.toString(elevator));
 		}
-			
 	}
 
 	private AnchorPane ConstructElevator(int number) {
@@ -122,7 +126,7 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 		Label labelTarget = new Label("Target: ");
 		labelTarget.getStyleClass().add("target-label");
 		Label labelFloor = new Label("Floor: ");
-		labelTarget.getStyleClass().add("floor-label");
+		labelFloor.getStyleClass().add("floor-label");
 		Label labelWeight = new Label("Weight: ");
 		labelWeight.getStyleClass().add("weight-label");
 		Label labelCapacity = new Label("Capacity: ");
@@ -202,7 +206,10 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 
 	public void setModel(ElevatorModel model) {
 		this.model = model;
+	}
 
+	public void setHwManager(ElevatorHardwareManager hwManager) {
+		this.hwManager = hwManager;
 	}
 
 	public void setCommitedDirection(int elevator, int direction) {

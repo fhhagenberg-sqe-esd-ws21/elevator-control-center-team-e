@@ -21,6 +21,8 @@ public class ElevatorGuiUpdater {
 
         public void UpdateGui() {
 
+            System.out.println("Runnin GUI update!");
+
             for(int i = 0; i < model.getNumOfElevators(); i++) {
                 gui.setCommitedDirection(i, model.getCommittedDirection(i));
                 gui.setTargetFloor(i, model.getTarget(i));
@@ -42,14 +44,28 @@ public class ElevatorGuiUpdater {
         }
 
         private void UpdateServicedFloors(int elevatorNumber) {
+
+
             for (int i = 0; i < model.getNumOfFloors(); ++i) {
                 gui.setServicesFloors(elevatorNumber, i, model.getServicesFloors(elevatorNumber, i));
+
+                if(elevatorNumber == 2) {
+                    System.out.print("SetServicesFloors: ");
+                    System.out.println(model.getServicesFloors(elevatorNumber, i));
+                }
             }
         }
 
         private void UpdateElevatorButtons(int elevatorNumber) {
             for (int i = 0; i < model.getNumOfFloors(); ++i) {
                 gui.setElevatorButton(elevatorNumber, i, model.getElevatorButton(elevatorNumber, i));
+
+                if(elevatorNumber == 2) {
+                    System.out.print("SetElevatorButtons: ");
+                    System.out.println(model.getServicesFloors(elevatorNumber, i));
+                }
             }
+
+
         }
 }
