@@ -50,7 +50,7 @@ public class ElevatorHardwareManager implements IElevator {
     @Override
     public int getElevatorFloor(int elevatorNumber) throws RemoteException {
         //return controller.getElevatorFloor(elevatorNumber);
-        return 2 + elevatorNumber;
+        return 2;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ElevatorHardwareManager implements IElevator {
     @Override
     public int getElevatorPosition(int elevatorNumber) throws RemoteException {
         //return controller.getElevatorPosition(elevatorNumber);
-        return 3 + elevatorNumber;
+        return 3;
     }
 
     @Override
@@ -116,7 +116,7 @@ public class ElevatorHardwareManager implements IElevator {
     @Override
     public int getTarget(int elevatorNumber) throws RemoteException {
         //return controller.getTarget(elevatorNumber);
-        return 5 + elevatorNumber;
+        return 5;
     }
 
     @Override

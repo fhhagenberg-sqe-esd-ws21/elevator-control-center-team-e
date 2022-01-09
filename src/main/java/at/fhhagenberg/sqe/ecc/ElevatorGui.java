@@ -213,144 +213,150 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 	}
 
 	public void setCommitedDirection(int elevator, int direction) {
-
-		Node btnUp = elevators.lookup("#Elevator" + Integer.toString(elevator) + " .btn-up");
-		btnUp.setStyle("-fx-text-fill: black");
-		Node btnDown = elevators.lookup("#Elevator" + Integer.toString(elevator) + " .btn-down");
-		btnDown.setStyle("-fx-text-fill: black");
-
-		switch (direction) {
-		case IElevator.ELEVATOR_DIRECTION_DOWN:
-			btnDown.setStyle("-fx-text-fill: red");
-			break;
-		case IElevator.ELEVATOR_DIRECTION_UP:
-			btnUp.setStyle("-fx-text-fill: red");
-			break;
-		default:
-			break;
-		}
+		Platform.runLater(() -> {
+			Node btnUp = elevators.lookup("#Elevator" + Integer.toString(elevator) + " .btn-up");
+			btnUp.setStyle("-fx-text-fill: black");
+			Node btnDown = elevators.lookup("#Elevator" + Integer.toString(elevator) + " .btn-down");
+			btnDown.setStyle("-fx-text-fill: black");
+	
+			switch (direction) {
+			case IElevator.ELEVATOR_DIRECTION_DOWN:
+				btnDown.setStyle("-fx-text-fill: red");
+				break;
+			case IElevator.ELEVATOR_DIRECTION_UP:
+				btnUp.setStyle("-fx-text-fill: red");
+				break;
+			default:
+				break;
+			}
+		});
 	}
 
 	public void setTargetFloor(int elevator, int floor) {
-		Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .target-label");
 		Platform.runLater(() -> {
+			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .target-label");
 			label.setText("Target: " + Integer.toString(floor));
 		});
 	}
 
 	public void setElevatorAccel(int elevator, int value) {
-		Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .accel-label");
 		Platform.runLater(() -> {
+			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .accel-label");
 			label.setText("Accel: " + Integer.toString(value));
 		});
 	}
 
 	public void setElevatorButton(int elevator, int floor, boolean pressed) {
-		VBox floorBox = (VBox) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .elevator-floors");
-		ObservableList<Node> floorList = floorBox.getChildren();
-		Button b = (Button) floorList.get(floorList.size() - 1 - floor);
-
-		if (pressed) {
-			b.setTextFill(Color.GREEN);
-		} else {
-			b.setTextFill(Color.BLACK);
-		}
+		Platform.runLater(() -> {
+			VBox floorBox = (VBox) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .elevator-floors");
+			ObservableList<Node> floorList = floorBox.getChildren();
+			Button b = (Button) floorList.get(floorList.size() - 1 - floor);
+	
+			if (pressed) {
+				b.setTextFill(Color.GREEN);
+			} else {
+				b.setTextFill(Color.BLACK);
+			}
+		});
 	}
 
 	public void setElevatorDoorStatus(int elevator, int status) {
-		Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .doors-label");
-
-		final String statusText;
-
-		switch (status) {
-		case IElevator.ELEVATOR_DOORS_CLOSED:
-			statusText = "CLOSED";
-			break;
-		case IElevator.ELEVATOR_DOORS_CLOSING:
-			statusText = "CLOSING";
-			break;
-		case IElevator.ELEVATOR_DOORS_OPEN:
-			statusText = "OPEN";
-			break;
-		case IElevator.ELEVATOR_DOORS_OPENING:
-			statusText = "OPENING";
-			break;
-		default:
-			statusText = "";
-			break;
-		}
-
 		Platform.runLater(() -> {
+			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .doors-label");
+
+			final String statusText;
+
+			switch (status) {
+			case IElevator.ELEVATOR_DOORS_CLOSED:
+				statusText = "CLOSED";
+				break;
+			case IElevator.ELEVATOR_DOORS_CLOSING:
+				statusText = "CLOSING";
+				break;
+			case IElevator.ELEVATOR_DOORS_OPEN:
+				statusText = "OPEN";
+				break;
+			case IElevator.ELEVATOR_DOORS_OPENING:
+				statusText = "OPENING";
+				break;
+			default:
+				statusText = "";
+				break;
+			}
 			label.setText("Doors: " + statusText);
 		});
 	}
 
 	public void setElevatorFloor(int elevator, int floor) {
-		Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .floor-label");
 		Platform.runLater(() -> {
+			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .floor-label");
 			label.setText("Floor: " + Integer.toString(floor));
 		});
 	}
 
 	public void setElevatorPosition(int elevator, int value) {
-		Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .position-label");
 		Platform.runLater(() -> {
+			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .position-label");
 			label.setText("Position: " + Integer.toString(value));
 		});
 	}
 
 	public void setElevatorSpeed(int elevator, int value) {
-		Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .speed-label");
 		Platform.runLater(() -> {
+			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .speed-label");
 			label.setText("Speed: " + Integer.toString(value));
 		});
 	}
 
 	public void setElevatorWeight(int elevator, int value) {
-		Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .weight-label");
 		Platform.runLater(() -> {
+			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .weight-label");
 			label.setText("Weight: " + Integer.toString(value));
 		});
 	}
 
 	public void setElevatorCapacity(int elevator, int value) {
-		Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .capacity-label");
 		Platform.runLater(() -> {
+			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .capacity-label");
 			label.setText("Capacity: " + Integer.toString(value));
 		});
 	}
 
 	public void setFloorButtonUp(int floor, boolean value) {
-		Label btnUp = (Label) callButtons.lookup("#floor" + Integer.toString(floor) + " .btn-up");
-
-		if (value) {
-			btnUp.setTextFill(Color.RED);
-		} else {
-			btnUp.setTextFill(Color.BLACK);
-		}
+		Platform.runLater(() -> {
+			Label btnUp = (Label) callButtons.lookup("#floor" + Integer.toString(floor) + " .btn-up");
+	
+			if (value) {
+				btnUp.setTextFill(Color.RED);
+			} else {
+				btnUp.setTextFill(Color.BLACK);
+			}
+		});
 	}
 
 	public void setFloorButtonDown(int floor, boolean value) {
-
-		Label btnDown = (Label) callButtons.lookup("#floor" + Integer.toString(floor) + " .btn-down");
-		if (value) {
-			btnDown.setTextFill(Color.RED);
-		} else {
-			btnDown.setTextFill(Color.BLACK);
-		}
-
+		Platform.runLater(() -> {
+			Label btnDown = (Label) callButtons.lookup("#floor" + Integer.toString(floor) + " .btn-down");
+			if (value) {
+				btnDown.setTextFill(Color.RED);
+			} else {
+				btnDown.setTextFill(Color.BLACK);
+			}
+		});
 	}
 	
 	public void setServicesFloors(int elevator, int floor, boolean service) {
-		VBox floorBox = (VBox) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .elevator-floors");
-		ObservableList<Node> floorList = floorBox.getChildren();
-		Button b = (Button) floorList.get(floorList.size() - 1 - floor);
-
-		if (service) {
-			b.getStyleClass().remove("disabledButton");
-		} else {
-			b.getStyleClass().add("disabledButton");
-		}
+		Platform.runLater(() -> {
+			VBox floorBox = (VBox) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .elevator-floors");
+			ObservableList<Node> floorList = floorBox.getChildren();
+			Button b = (Button) floorList.get(floorList.size() - 1 - floor);
+	
+			if (service) {
+				b.getStyleClass().remove("disabledButton");
+			} else {
+				b.getStyleClass().add("disabledButton");
+			}
+		});
 	}
 
 }
