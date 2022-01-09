@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -27,10 +28,11 @@ import javafx.stage.Stage;
 public class ElevatorGuiTest {
 	
 	private ElevatorGui gui;
+	private ElevatorModel model;
 	
 	@Start
 	public void start(Stage stage) throws Exception {
-		ElevatorModel model = new ElevatorModel(3, 2, 230);
+		model = new ElevatorModel(3, 2, 230);
     	
     	
     	FXMLLoader loader = new FXMLLoader();
@@ -51,7 +53,8 @@ public class ElevatorGuiTest {
 	@Test
 	public void testCommittedDirection(FxRobot robot) {
 		
-		gui.setCommitedDirection(0, IElevator.ELEVATOR_DIRECTION_DOWN);
+		model.setCommittedDirection(0, IElevator.ELEVATOR_DIRECTION_DOWN);
+		Platform.runLater(() -> gui.setCommitedDirection(0) );
 		
 		Button btnUp = robot.lookup("#Elevator0 .btn-up").<Button>query();
 		Button btnDown = robot.lookup("#Elevator0 .btn-down").<Button>query();
@@ -66,7 +69,8 @@ public class ElevatorGuiTest {
 	@Test
 	public void testSetTargetFloor(FxRobot robot) {
 		
-		gui.setTargetFloor(1, 1);
+		model.setTarget(1, 1);
+		Platform.runLater(() ->gui.setTargetFloor(1));
 		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator1 .target-label", hasText("Target: 1"));
 	}
@@ -74,7 +78,8 @@ public class ElevatorGuiTest {
 	@Test
 	public void testSetElevatorAccel(FxRobot robot) {
 		
-		gui.setElevatorAccel(1, 129);
+		model.setElevatorAccel(1, 129);
+		Platform.runLater(() -> gui.setElevatorAccel(1));
 		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator1 .accel-label", hasText("Accel: 129"));
 	}
@@ -82,7 +87,8 @@ public class ElevatorGuiTest {
 	@Test
 	public void testElevatorButton(FxRobot robot) {
 		
-		gui.setElevatorButton(1, 1, true);
+		model.setElevatorButton(1, 1, true);
+		Platform.runLater(() -> gui.setElevatorButton(1));
 		
 		VBox floorBox = (VBox) robot.lookup("#Elevator1 .elevator-floors").<VBox>query();
 		ObservableList<Node> floorList= floorBox.getChildren();
@@ -96,7 +102,8 @@ public class ElevatorGuiTest {
 	@Test
 	public void testSetElevatorDoorStatus(FxRobot robot) {
 		
-		gui.setElevatorDoorStatus(2, IElevator.ELEVATOR_DOORS_CLOSING);
+		model.setElevatorDoorStatus(2, IElevator.ELEVATOR_DOORS_CLOSING);
+		Platform.runLater(() -> gui.setElevatorDoorStatus(2));
 		
 		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator2 .doors-label", hasText("Doors: CLOSING"));
@@ -105,7 +112,8 @@ public class ElevatorGuiTest {
 	@Test
 	public void testSetElevatorFloor(FxRobot robot) {
 		
-		gui.setElevatorFloor(2, 0);
+		model.setElevatorFloor(2, 0);
+		Platform.runLater(() -> gui.setElevatorFloor(2));
 		
 		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator2 .floor-label", hasText("Floor: 0"));
@@ -114,7 +122,8 @@ public class ElevatorGuiTest {
 	@Test
 	public void testSetElevatorPosition(FxRobot robot) {
 		
-		gui.setElevatorPosition(0, 120);
+		model.setElevatorPosition(0, 120);
+		Platform.runLater(() -> gui.setElevatorPosition(0));
 		
 		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator0 .position-label", hasText("Position: 120"));
@@ -123,7 +132,8 @@ public class ElevatorGuiTest {
 	@Test
 	public void testSetElevatorSpeed(FxRobot robot) {
 		
-		gui.setElevatorSpeed(1, 56);
+		model.setElevatorSpeed(1, 56);
+		Platform.runLater(() -> gui.setElevatorSpeed(1));
 		
 		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator1 .speed-label", hasText("Speed: 56"));
@@ -132,7 +142,8 @@ public class ElevatorGuiTest {
 	@Test
 	public void testSetElevatorWeight(FxRobot robot) {
 		
-		gui.setElevatorWeight(2, 489);
+		model.setElevatorWeight(2, 489);
+		Platform.runLater(() -> gui.setElevatorWeight(2));
 		
 		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator2 .weight-label", hasText("Weight: 489"));
@@ -140,7 +151,9 @@ public class ElevatorGuiTest {
 	
 	@Test
 	public void testSetElevatorCapacity(FxRobot robot) {
-		gui.setElevatorCapacity(1, 12);
+		
+		model.setElevatorCapacity(1, 12);
+		Platform.runLater(() -> gui.setElevatorCapacity(1));
 		
 		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator1 .capacity-label", hasText("Capacity: 12"));
@@ -149,7 +162,8 @@ public class ElevatorGuiTest {
 	@Test
 	public void testSetFloorButtonUp(FxRobot robot) {
 		
-		gui.setFloorButtonUp(0, true);
+		model.setFloorButtonUp(0, true);
+		Platform.runLater(() -> gui.setFloorButtonUp(0));
 		
 		Label button = robot.lookup("#floor0 .btn-up").<Label>query();
 		
@@ -157,7 +171,9 @@ public class ElevatorGuiTest {
 		verifyThat("#floor0 .btn-up", hasText("UP"));
 		assertEquals(Color.RED, button.getTextFill());
 		
-		gui.setFloorButtonUp(0, false);
+		model.setFloorButtonUp(0, false);
+		Platform.runLater(() -> gui.setFloorButtonUp(0));
+		
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(Color.BLACK, button.getTextFill());
 	}
@@ -165,7 +181,8 @@ public class ElevatorGuiTest {
 	@Test
 	public void testSetFloorButtonDown(FxRobot robot) {
 		
-		gui.setFloorButtonDown(1, true);
+		model.setFloorButtonDown(1, true);
+		Platform.runLater(() -> gui.setFloorButtonDown(1));
 		
 		Label button = robot.lookup("#floor1 .btn-down").<Label>query();
 		
@@ -173,7 +190,9 @@ public class ElevatorGuiTest {
 		verifyThat("#floor1 .btn-down", hasText("DOWN"));
 		assertEquals(Color.RED, button.getTextFill());
 		
-		gui.setFloorButtonDown(1, false);
+		model.setFloorButtonDown(1, false);
+		Platform.runLater(() -> gui.setFloorButtonDown(1));
+		
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(Color.BLACK, button.getTextFill());
 	}
@@ -181,7 +200,8 @@ public class ElevatorGuiTest {
 	@Test
 	public void testSetServicesFloor(FxRobot robot) {
 		
-		gui.setServicesFloors(2, 0, false);
+		model.setServicesFloors(2, 0, false);
+		Platform.runLater(() -> gui.setServicesFloors(2, 0));
 		
 		VBox floorBox = (VBox) robot.lookup("#Elevator2 .elevator-floors").<VBox>query();
 		ObservableList<Node> floorList= floorBox.getChildren();
