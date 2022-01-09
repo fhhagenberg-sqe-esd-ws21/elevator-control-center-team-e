@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(MockitoExtension.class)
 public class ElevatorModelFactoryTest {
 
-    @Mock ElevatorHardwareManager hwManager;
+    @Mock IElevatorHardwareManager hwManager;
 
     @Test
     void testElevatorModelGeneration() throws RemoteException {

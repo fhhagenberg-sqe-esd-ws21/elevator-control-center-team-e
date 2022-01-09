@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  *
- * @author
+ * @author Berhard Wandl - s2010567008
  */
 public class ElevatorModel {
 

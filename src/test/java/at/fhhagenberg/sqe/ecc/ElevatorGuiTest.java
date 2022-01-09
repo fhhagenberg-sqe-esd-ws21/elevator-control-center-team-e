@@ -24,10 +24,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+/**
+ *
+ * @author Bernhard Wandl - s2010567008
+ */
 @ExtendWith(ApplicationExtension.class)
 public class ElevatorGuiTest {
 	
 	private ElevatorGui gui;
+	private ElevatorGuiUpdater guiUpdater;
 	private ElevatorModel model;
 	
 	@Start
@@ -44,6 +49,8 @@ public class ElevatorGuiTest {
         loader.<ElevatorGui>getController().InitGui();
         
         gui = loader.<ElevatorGui>getController();
+		guiUpdater = new ElevatorGuiUpdater(gui);
+		model.setGuiUpdater(guiUpdater);
     	
         Scene scene = new Scene(content);
         stage.setScene(scene);

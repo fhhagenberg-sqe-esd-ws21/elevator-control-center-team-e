@@ -23,6 +23,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+/**
+ *
+ * @author Bernhard Wandl - s2010567008
+ */
 public class ElevatorGui implements EventHandler<MouseEvent> {
 
 	private ElevatorModel model;

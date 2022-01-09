@@ -10,6 +10,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Main Class.
+ * @author Alexander Kemptner - s2010567016
+ */
 public class ElevatorMain extends Application{
 
     public static void main(String[] args) {

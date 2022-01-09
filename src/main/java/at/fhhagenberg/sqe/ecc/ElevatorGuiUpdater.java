@@ -9,6 +9,10 @@ import javafx.scene.paint.Color;
 
 import java.rmi.RemoteException;
 
+/**
+ * Info
+ * @author Bernhard Wandl - s2010567008
+ */
 public class ElevatorGuiUpdater {
         private ElevatorGui gui;
 

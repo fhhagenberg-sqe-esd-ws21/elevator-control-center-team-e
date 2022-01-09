@@ -18,12 +18,16 @@ import static org.mockito.Mockito.*;
 public class ElevatorModelUpdaterTest {
 
     @Mock
-    private ElevatorHardwareManager mockedHwManager = mock(ElevatorHardwareManager.class);
+    private IElevatorHardwareManager mockedHwManager = mock(IElevatorHardwareManager.class);
+    @Mock
+    private ElevatorGuiUpdater guiUpdater = mock(ElevatorGuiUpdater.class);
+            //new ElevatorGuiUpdater(new ElevatorGui());
 
     @Test
     public void testUpdateModel_committedDirection_pass() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getCommittedDirection(elevatorNumber)).thenReturn(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
@@ -37,6 +41,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_committedDirection_throwsRemoteException() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getCommittedDirection(elevatorNumber)).thenThrow(RemoteException.class);
@@ -50,6 +55,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getElevatorAccel_pass() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getElevatorAccel(elevatorNumber)).thenReturn(4711);
@@ -63,6 +69,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getElevatorAccel_throwsRemoteException() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
         model.setElevatorAccel(elevatorNumber, 12345);
 
@@ -77,6 +84,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getElevatorDoorStatus_pass() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getElevatorDoorStatus(elevatorNumber)).thenReturn(IElevator.ELEVATOR_DOORS_OPENING);
@@ -90,6 +98,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getElevatorDoorStatus_throwsRemoteException() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
         model.setElevatorDoorStatus(elevatorNumber, IElevator.ELEVATOR_DOORS_CLOSED);
 
@@ -104,6 +113,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getElevatorFloor_pass() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getElevatorFloor(elevatorNumber)).thenReturn(9);
@@ -117,6 +127,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getElevatorFloor_throwsRemoteException() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
         model.setElevatorFloor(elevatorNumber, 9);
 
@@ -131,6 +142,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getElevatorPosition_pass() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getElevatorPosition(elevatorNumber)).thenReturn(4712);
@@ -144,6 +156,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getElevatorPosition_throwsRemoteException() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
         model.setElevatorPosition(elevatorNumber, 4712);
 
@@ -158,6 +171,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getElevatorSpeed_pass() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getElevatorSpeed(elevatorNumber)).thenReturn(987);
@@ -171,6 +185,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getElevatorSpeed_throwsRemoteException() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
         model.setElevatorSpeed(elevatorNumber, 987);
 
@@ -185,6 +200,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getElevatorWeight_pass() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getElevatorWeight(elevatorNumber)).thenReturn(1234);
@@ -198,6 +214,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getElevatorWeight_throwsRemoteException() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
         model.setElevatorWeight(elevatorNumber, 1234);
 
@@ -212,6 +229,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getElevatorCapacity_pass() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getElevatorCapacity(elevatorNumber)).thenReturn(1024);
@@ -225,6 +243,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getElevatorCapacity_throwsRemoteException() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
         model.setElevatorCapacity(elevatorNumber, 1025);
 
@@ -239,6 +258,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getTarget_pass() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getTarget(elevatorNumber)).thenReturn(3);
@@ -252,6 +272,7 @@ public class ElevatorModelUpdaterTest {
     public void testUpdateModel_getTarget_throwsRemoteException() throws RemoteException {
         int elevatorNumber = 0;
         ElevatorModel model = new ElevatorModel(1, 10, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
         model.setTarget(elevatorNumber, 4);
 
@@ -265,6 +286,7 @@ public class ElevatorModelUpdaterTest {
     @Test
     public void testUpdateModel_getFloorButtonDown_pass() throws RemoteException {
         ElevatorModel model = new ElevatorModel(1, 2, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getFloorButtonDown(0)).thenReturn(true);
@@ -281,6 +303,7 @@ public class ElevatorModelUpdaterTest {
     @Test
     public void testUpdateModel_getFloorButtonDown_throwsRemoteException() throws RemoteException {
         ElevatorModel model = new ElevatorModel(1, 2, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
         model.setFloorButtonDown(0, true);
 
@@ -295,6 +318,7 @@ public class ElevatorModelUpdaterTest {
     @Test
     public void testUpdateModel_getFloorButtonUp_pass() throws RemoteException {
         ElevatorModel model = new ElevatorModel(1, 2, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getFloorButtonUp(0)).thenReturn(true);
@@ -311,6 +335,7 @@ public class ElevatorModelUpdaterTest {
     @Test
     public void testUpdateModel_getFloorButtonUp_throwsRemoteException() throws RemoteException {
         ElevatorModel model = new ElevatorModel(1, 2, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
         model.setFloorButtonUp(0, true);
 
@@ -325,6 +350,7 @@ public class ElevatorModelUpdaterTest {
     @Test
     public void testUpdateModel_getClockTick_pass() throws RemoteException {
         ElevatorModel model = new ElevatorModel(1, 2, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getClockTick()).thenReturn(Integer.toUnsignedLong(47123));
@@ -337,6 +363,7 @@ public class ElevatorModelUpdaterTest {
     @Test
     public void testUpdateModel_getClockTick_throwsRemoteException() throws RemoteException {
         ElevatorModel model = new ElevatorModel(1, 2, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
         model.setClockTick(47132);
 
@@ -350,6 +377,7 @@ public class ElevatorModelUpdaterTest {
     @Test
     public void testUpdateModel_getServicesFloors_pass() throws RemoteException {
         ElevatorModel model = new ElevatorModel(1, 2, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getServicesFloors(0,0)).thenReturn(true);
@@ -366,6 +394,7 @@ public class ElevatorModelUpdaterTest {
     @Test
     public void testUpdateModel_getServicesFloors_throwsRemoteException() throws RemoteException {
         ElevatorModel model = new ElevatorModel(1, 2, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
         model.setServicesFloors(0,0, false);
         model.setServicesFloors(0,1, true);
@@ -381,6 +410,7 @@ public class ElevatorModelUpdaterTest {
     @Test
     public void testUpdateModel_getElevatorButton_pass() throws RemoteException {
         ElevatorModel model = new ElevatorModel(1, 2, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
 
         when(mockedHwManager.getElevatorButton(0,0)).thenReturn(true);
@@ -397,6 +427,7 @@ public class ElevatorModelUpdaterTest {
     @Test
     public void testUpdateModel_getElevatorButton_throwsRemoteException() throws RemoteException {
         ElevatorModel model = new ElevatorModel(1, 2, 2500);
+        model.setGuiUpdater(guiUpdater);
         ElevatorModelUpdater updater = new ElevatorModelUpdater(mockedHwManager, model);
         model.setElevatorButton(0,0, false);
 

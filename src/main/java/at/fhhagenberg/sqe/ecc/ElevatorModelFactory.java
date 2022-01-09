@@ -5,7 +5,7 @@ import java.util.EventListener;
 
 /**
  *
- * @author
+ * @author Alexander Kemptner - s2010567016
  */
 public class ElevatorModelFactory {
 
