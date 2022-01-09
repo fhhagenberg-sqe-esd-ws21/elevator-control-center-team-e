@@ -52,8 +52,8 @@ public class ElevatorGuiTest {
 		
 		gui.setCommitedDirection(0, IElevator.ELEVATOR_DIRECTION_DOWN);
 		
-		Label btnUp = robot.lookup("#Elevator0 .btn-up").<Label>query();
-		Label btnDown = robot.lookup("#Elevator0 .btn-down").<Label>query();
+		Button btnUp = robot.lookup("#Elevator0 .btn-up").<Button>query();
+		Button btnDown = robot.lookup("#Elevator0 .btn-down").<Button>query();
 		
 		verifyThat("#Elevator0 .btn-down", hasText("DOWN"));
 		verifyThat("#Elevator0 .btn-up", hasText("UP"));

@@ -47,15 +47,40 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 			btnAuto.setDisable(false);
 			b.setDisable(true);
 		} else if (b.getStyleClass().contains("floor-button")) {
+			VBox floorList = (VBox) b.getParent();
+			int elevator = new Scanner(floorList.getId()).useDelimiter("\\D+").nextInt();
+			int floor = floorList.getChildren().size() - 1 - floorList.getChildren().indexOf(b);
+			
 			if(event.getButton().equals(MouseButton.PRIMARY)) {
+				// set Target
 			} else if (event.getButton().equals(MouseButton.SECONDARY)){
-				if(!b.getStyleClass().remove("disabledButton")) {
-					//b.getStyleClass().add("disabledButton");
-				}
+				// set Services Floors
 			}
-			System.out.println(b.getParent());
+			System.out.println(Integer.toString(elevator) + ", " + Integer.toString(floor));
+			
+		} else if(b.getStyleClass().contains("btn-up")) {
+			int elevator = new Scanner(b.getId()).useDelimiter("\\D+").nextInt();
+					
+			if (model.getCommittedDirection(elevator) == IElevator.ELEVATOR_DIRECTION_UP) {
+				// set direction uncommited
+			} else {
+				// set direction up
+			}
+			
+			System.out.println(Integer.toString(elevator));
+			
+		} else if(b.getStyleClass().contains("btn-up")) {
+			int elevator = new Scanner(b.getId()).useDelimiter("\\D+").nextInt();
+			
+			if (model.getCommittedDirection(elevator) == IElevator.ELEVATOR_DIRECTION_DOWN) {
+				// set direction uncommited
+			} else {
+				// set direction down
+			}
+			
+			System.out.println(Integer.toString(elevator));
 		}
-
+			
 	}
 
 	private AnchorPane ConstructElevator(int number) {
@@ -76,6 +101,7 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 		buttonManual.setDisable(true);
 
 		VBox elevatorButtons = new VBox();
+		elevatorButtons.setId("elevatorFloors" + Integer.toString(number));
 		elevatorButtons.getStyleClass().add("elevator-floors");
 
 		for (int i = model.getNumOfFloors() - 1; i >= 0; --i) {
@@ -112,18 +138,22 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 		status.getChildren().add(labelWeight);
 		status.getChildren().add(labelCapacity);
 
-		Label labelUp = new Label("UP");
-		labelUp.getStyleClass().add("btn-up");
-		Label labelDown = new Label("DOWN");
-		labelDown.getStyleClass().add("btn-down");
+		Button btnUp = new Button("UP");
+		btnUp.getStyleClass().add("btn-up");
+		Button btnDown = new Button("DOWN");
+		btnDown.getStyleClass().add("btn-down");
+		btnUp.setId("buttonUp" + Integer.toString(number));
+		btnDown.setId("buttonDown" + Integer.toString(number));
+		btnUp.setOnMouseClicked(this);
+		btnDown.setOnMouseClicked(this);
 
 		VBox content = new VBox();
 		content.getChildren().add(title);
 		content.getChildren().add(buttonManual);
 		content.getChildren().add(buttonAuto);
-		content.getChildren().add(labelUp);
+		content.getChildren().add(btnUp);
 		content.getChildren().add(elevatorButtons);
-		content.getChildren().add(labelDown);
+		content.getChildren().add(btnDown);
 		content.getChildren().add(status);
 
 		AnchorPane pane = new AnchorPane(content);

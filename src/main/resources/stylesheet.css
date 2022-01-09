@@ -30,11 +30,17 @@
 }
 
 .elevator .btn-up {
-	-fx-padding:20 0 10 0;
+	-fx-padding:20 5 20 5;
+	-fx-background-insets: 15 0 15 0;
+    -fx-border-insets: 15 0 15 0;
+    -fx-min-width:50px;
 }
 
 .elevator .btn-down {
-	-fx-padding:10 0 20 0;
+	-fx-padding:20 5 20 5;
+	-fx-background-insets: 15 0 15 0;
+    -fx-border-insets: 15 0 15 0;
+    -fx-min-width:50px;
 }
 
 #call-button-box{
@@ -54,6 +60,11 @@
 	-fx-min-width:40px;
 }
 
+.floor-button{
+	-fx-min-width:30px;
+}
+
 .disabledButton{
 	-fx-background-color: red;
 }
+
