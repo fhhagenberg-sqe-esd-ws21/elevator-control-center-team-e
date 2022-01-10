@@ -1,14 +1,21 @@
 package at.fhhagenberg.sqe.ecc;
 
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.testfx.api.FxRobot;
+import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
@@ -16,6 +23,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
@@ -24,6 +34,7 @@ import static org.testfx.matcher.control.LabeledMatchers.hasText;
  *
  * @author Markus Lindner - s2010567018
  */
+@ExtendWith(ApplicationExtension.class)
 public class MockedEndToEndTest {
 
     private IElevatorHardwareManager hwManager;
@@ -52,7 +63,7 @@ public class MockedEndToEndTest {
         guiUpdater = new ElevatorGuiUpdater(gui);
         model.setGuiUpdater(guiUpdater);
 
-        Scene scene = new Scene(content);
+        Scene scene = new Scene(content, 1000, 800);
         scene.getStylesheets().add(getClass().getResource("/stylesheet.css").toString());
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -67,18 +78,56 @@ public class MockedEndToEndTest {
     }
 
     @Test
-    public void test_end_to_end(/*FxRobot robot*/) {
+    public void testButtonUp(FxRobot robot) {
 
-//        robot.rightClickOn("BUTTON??")
-//
-//        Platform.runLater(() -> gui.setElevatorAccel(1));
-//        WaitForAsyncUtils.waitForFxEvents();
-//
-//        model.setTarget(0, 1);
-        //Platform.runLater(() ->gui.setTargetFloor(1));
-        //WaitForAsyncUtils.waitForFxEvents();
-        //verifyThat("#Elevator1 .target-label", hasText("Target: 1"));
-        System.out.println("End-To-End-Mock-Test!");
+    	Button btn = robot.lookup("#Elevator0 .btn-up").<Button>query();
+    	robot.clickOn(btn);
+    	WaitForAsyncUtils.waitForFxEvents();
+    	assertEquals(Color.RED, btn.getTextFill());
+    	robot.clickOn(btn);
+    	WaitForAsyncUtils.waitForFxEvents();
+    	assertEquals(Color.BLACK, btn.getTextFill());
     }
+    
+    @Test
+    public void testButtonDown(FxRobot robot) {
+
+    	Button btn = robot.lookup("#Elevator1 .btn-down").<Button>query();
+    	robot.clickOn(btn);
+    	WaitForAsyncUtils.waitForFxEvents();
+    	assertEquals(Color.RED, btn.getTextFill());
+    	robot.clickOn(btn);
+    	WaitForAsyncUtils.waitForFxEvents();
+    	assertEquals(Color.BLACK, btn.getTextFill());
+    }
+    
+    @Test
+    public void testSetTarget(FxRobot robot) {
+
+    	VBox floorBox = (VBox) robot.lookup("#Elevator1 .elevator-floors").<VBox>query();
+		ObservableList<Node> floorList= floorBox.getChildren();
+		Button btn = (Button) floorList.get(floorList.size()-1-2); // Floor 2
+		robot.clickOn(btn);
+		
+		WaitForAsyncUtils.waitForFxEvents();
+		verifyThat("#Elevator1 .target-label", hasText("Target: 2"));
+    }
+    
+    @Test
+    public void testSetServicesFloor(FxRobot robot) {
+
+    	VBox floorBox = (VBox) robot.lookup("#Elevator2 .elevator-floors").<VBox>query();
+		ObservableList<Node> floorList= floorBox.getChildren();
+		Button btn = (Button) floorList.get(floorList.size()-1-4); // Floor 4
+		
+		robot.rightClickOn(btn);
+		WaitForAsyncUtils.waitForFxEvents();
+		assertFalse(btn.getStyleClass().contains("disabledButton"));
+		
+		robot.rightClickOn(btn);
+		WaitForAsyncUtils.waitForFxEvents();
+		assertTrue(btn.getStyleClass().contains("disabledButton"));
+    }
+
 
 }
