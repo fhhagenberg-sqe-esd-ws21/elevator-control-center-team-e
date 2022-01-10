@@ -1,5 +1,7 @@
 package at.fhhagenberg.sqe.ecc;
 
+import sqelevator.IElevator;
+
 /**
  * Extending given Elevator Interface to wrap exception throwing setters.
  * @author Markus Lindner - s2010567018

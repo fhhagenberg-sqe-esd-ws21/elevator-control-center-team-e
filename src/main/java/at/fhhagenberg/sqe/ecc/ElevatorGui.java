@@ -1,27 +1,21 @@
 package at.fhhagenberg.sqe.ecc;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.rmi.RemoteException;
 import java.util.Scanner;
 
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import sqelevator.IElevator;
 
 /**
  *
@@ -36,6 +30,8 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 	private HBox elevators;
 	@FXML
 	private VBox callButtons;
+	@FXML
+	private Label errorMsgLabel;
 	
 	private int ScanElevator(Node node) {
 		Scanner s = new Scanner(node.getId());
@@ -52,48 +48,54 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 	public void handle(MouseEvent event) {
 		Button b = (Button) event.getSource();
 
-		if (b.getStyleClass().contains("auto")) {
-			int elevator = ScanElevator(b);
-			Node btnManual = elevators.lookup("#buttonManual" + Integer.toString(elevator));
-			btnManual.setDisable(false);
-			b.setDisable(true);
-		} else if (b.getStyleClass().contains("manual")) {
-			int elevator = ScanElevator(b);
-			Node btnAuto = elevators.lookup("#buttonAuto" + Integer.toString(elevator));
-			btnAuto.setDisable(false);
-			b.setDisable(true);
-		} else if (b.getStyleClass().contains("floor-button")) {
-			VBox floorList = (VBox) b.getParent();
-			int elevator = ScanElevator(floorList);
-			int floor = floorList.getChildren().size() - 1 - floorList.getChildren().indexOf(b);
-			
-			if(event.getButton().equals(MouseButton.PRIMARY)) {
-				hwManager.wrappedSetTarget(elevator, floor);
-			} else if (event.getButton().equals(MouseButton.SECONDARY)){
-				hwManager.wrappedSetServicesFloors(elevator, floor, !model.getServicesFloors(elevator, floor));
+		try {
+
+
+			if (b.getStyleClass().contains("auto")) {
+				int elevator = ScanElevator(b);
+				Node btnManual = elevators.lookup("#buttonManual" + Integer.toString(elevator));
+				btnManual.setDisable(false);
+				b.setDisable(true);
+			} else if (b.getStyleClass().contains("manual")) {
+				int elevator = ScanElevator(b);
+				Node btnAuto = elevators.lookup("#buttonAuto" + Integer.toString(elevator));
+				btnAuto.setDisable(false);
+				b.setDisable(true);
+			} else if (b.getStyleClass().contains("floor-button")) {
+				VBox floorList = (VBox) b.getParent();
+				int elevator = ScanElevator(floorList);
+				int floor = floorList.getChildren().size() - 1 - floorList.getChildren().indexOf(b);
+
+				if (event.getButton().equals(MouseButton.PRIMARY)) {
+					hwManager.setTarget(elevator, floor);
+				} else if (event.getButton().equals(MouseButton.SECONDARY)) {
+					hwManager.setServicesFloors(elevator, floor, !model.getServicesFloors(elevator, floor));
+				}
+
+			} else if (b.getStyleClass().contains("btn-up")) {
+				int elevator = ScanElevator(b);
+
+				if (model.getCommittedDirection(elevator) == IElevator.ELEVATOR_DIRECTION_UP) {
+					// set direction uncommited
+					hwManager.setCommittedDirection(elevator, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
+				} else {
+					// set direction up
+					hwManager.setCommittedDirection(elevator, IElevator.ELEVATOR_DIRECTION_UP);
+				}
+
+			} else if (b.getStyleClass().contains("btn-down")) {
+				int elevator = ScanElevator(b);
+
+				if (model.getCommittedDirection(elevator) == IElevator.ELEVATOR_DIRECTION_DOWN) {
+					// set direction uncommited
+					hwManager.setCommittedDirection(elevator, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
+				} else {
+					// set direction down
+					hwManager.setCommittedDirection(elevator, IElevator.ELEVATOR_DIRECTION_DOWN);
+				}
 			}
-			
-		} else if(b.getStyleClass().contains("btn-up")) {
-			int elevator = ScanElevator(b);
-					
-			if (model.getCommittedDirection(elevator) == IElevator.ELEVATOR_DIRECTION_UP) {
-				// set direction uncommited
-				hwManager.wrappedSetCommittedDirection(elevator, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
-			} else {
-				// set direction up
-				hwManager.wrappedSetCommittedDirection(elevator, IElevator.ELEVATOR_DIRECTION_UP);
-			}
-			
-		} else if(b.getStyleClass().contains("btn-down")) {
-			int elevator = ScanElevator(b);
-			
-			if (model.getCommittedDirection(elevator) == IElevator.ELEVATOR_DIRECTION_DOWN) {
-				// set direction uncommited
-				hwManager.wrappedSetCommittedDirection(elevator, IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
-			} else {
-				// set direction down
-				hwManager.wrappedSetCommittedDirection(elevator, IElevator.ELEVATOR_DIRECTION_DOWN);
-			}
+		}catch(RemoteException e) {
+			model.setErrorMessage("Connection Error: Please check connection to low-level elevator system.");
 		}
 	}
 
@@ -346,4 +348,7 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 			}
 	}
 
+	public void setErrorMessage() {
+		errorMsgLabel.setText(model.getErrorMessage());
+	}
 }

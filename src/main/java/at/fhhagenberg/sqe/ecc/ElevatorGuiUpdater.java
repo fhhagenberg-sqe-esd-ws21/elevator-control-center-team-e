@@ -71,4 +71,8 @@ public class ElevatorGuiUpdater {
         public void updateElevatorButton(int elevator) {
             Platform.runLater(() -> gui.setElevatorButton(elevator));
         }
+
+        public void updateErrorMessage() {
+            Platform.runLater(() -> gui.setErrorMessage());
+        }
 }

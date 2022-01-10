@@ -75,6 +75,7 @@ public class MockedEndToEndTest {
             }
         };
         executor.scheduleAtFixedRate(periodicTask, 0, 100, TimeUnit.MILLISECONDS);
+        model.initialGuiUpdate();
     }
 
     @Test

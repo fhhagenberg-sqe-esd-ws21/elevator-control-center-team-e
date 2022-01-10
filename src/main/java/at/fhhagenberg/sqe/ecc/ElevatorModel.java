@@ -1,5 +1,7 @@
 package at.fhhagenberg.sqe.ecc;
 
+import javafx.application.Platform;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +22,8 @@ public class ElevatorModel {
     private int loggingLevel;
 
     private ElevatorGuiUpdater guiUpdater;
+
+    private String errorMessage = "";
 
     public ElevatorModel(int numberOfElevators, int numberOfFloors, int floorHeight) {
         elevators = new ArrayList<>();
@@ -261,5 +265,38 @@ public class ElevatorModel {
 
     public void setGuiUpdater(ElevatorGuiUpdater guiUpdater) {
         this.guiUpdater = guiUpdater;
+    }
+
+    public void initialGuiUpdate() {
+        for(int i = 0; i < elevators.size(); i++) {
+            guiUpdater.updateCommittedDirection(i);
+            guiUpdater.updateTargetFloor(i);
+            guiUpdater.updateElevatorAccel(i);
+            guiUpdater.updateElevatorDoorStatus(i);
+            guiUpdater.updateElevatorFloor(i);
+            guiUpdater.updateElevatorPosition(i);
+            guiUpdater.updateElevatorSpeed(i);
+            guiUpdater.updateElevatorWeight(i);
+            guiUpdater.updateElevatorCapacity(i);
+            guiUpdater.updateElevatorButton(i);
+
+            for(int j = 0; j < floors.size(); j++) {
+                guiUpdater.updateServicedFloors(i, j);
+            }
+        }
+
+        for(int i = 0; i < floors.size(); i++) {
+            guiUpdater.updateFloorButtonUp(i);
+            guiUpdater.updateFloorButtonDown(i);
+        }
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+        guiUpdater.updateErrorMessage();
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
     }
 }

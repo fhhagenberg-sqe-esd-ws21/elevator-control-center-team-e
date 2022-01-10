@@ -1,6 +1,7 @@
 package at.fhhagenberg.sqe.ecc;
 
-import java.rmi.RemoteException;
+import sqelevator.IElevator;
+
 import java.util.ArrayList;
 import java.util.List;
 

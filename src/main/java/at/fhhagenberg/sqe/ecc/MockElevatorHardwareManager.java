@@ -1,8 +1,7 @@
 package at.fhhagenberg.sqe.ecc;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
+import sqelevator.IElevator;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;

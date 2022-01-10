@@ -23,11 +23,13 @@ public class ElevatorMain extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        IElevatorHardwareManager hwManager = new MockElevatorHardwareManager();
+        //IElevatorHardwareManager hwManager = new MockElevatorHardwareManager();
+
+        IElevatorHardwareManager hwManager = ElevatorConnectionSetup.ElevatorConnectionSetup();
+
         ElevatorModelFactory modelFactory = new ElevatorModelFactory(hwManager);
         ElevatorModel model = modelFactory.CreateElevatorControlCenter();
 
-    	
     	FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUIMock.fxml"));
         BorderPane content = loader.<BorderPane>load();
@@ -55,5 +57,6 @@ public class ElevatorMain extends Application{
             }
         };
         executor.scheduleAtFixedRate(periodicTask, 0, 100, TimeUnit.MILLISECONDS);
+        model.initialGuiUpdate();
     }
 }
