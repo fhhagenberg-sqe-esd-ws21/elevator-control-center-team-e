@@ -16,17 +16,14 @@ public class ElevatorHardwareManager implements IElevatorHardwareManager {
 
     /**
      * Constructor of the class. Establishes a connection to low level elevator system.
+     * @param controller Interface to low-level elevator system. Connection must be already established.
+     * @throws IllegalArgumentException Throws exception if there is no valid connection to low-level elevator system.
      */
-    public ElevatorHardwareManager() {
-        try {
-            controller = (IElevator) Naming.lookup("rmi://host.docker.internal/ElevatorSim");
-        } catch (MalformedURLException e) {
-            System.out.println(e.getMessage());
-        } catch (NotBoundException e) {
-            System.out.println(e.getMessage());
-        } catch (RemoteException e) {
-            System.out.println(e.getMessage());
-        }
+    public ElevatorHardwareManager(IElevator controller) throws IllegalArgumentException {
+        if(controller == null)
+            throw new IllegalArgumentException("Please establish connection to low-level elevator system.");
+
+        this.controller = controller;
     }
 
     @Override
@@ -134,7 +131,7 @@ public class ElevatorHardwareManager implements IElevatorHardwareManager {
         try {
             setServicesFloors(elevatorNumber, floor, service);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 
@@ -143,7 +140,7 @@ public class ElevatorHardwareManager implements IElevatorHardwareManager {
         try {
             setTarget(elevatorNumber, target);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 
@@ -152,7 +149,7 @@ public class ElevatorHardwareManager implements IElevatorHardwareManager {
         try {
             setCommittedDirection(elevatorNumber, direction);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 }
