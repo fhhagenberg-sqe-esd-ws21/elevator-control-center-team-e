@@ -5,17 +5,17 @@ import java.util.EventListener;
 
 /**
  *
- * @author
+ * @author Alexander Kemptner - s2010567016
  */
 public class ElevatorModelFactory {
 
-    IElevator elevatorInterface;
+    IElevatorHardwareManager hwManager;
 
-    public ElevatorModelFactory(IElevator elevatorInterface) {
-        this.elevatorInterface = elevatorInterface;
+    public ElevatorModelFactory(IElevatorHardwareManager hwManager) {
+        this.hwManager = hwManager;
     }
 
     public ElevatorModel CreateElevatorControlCenter() throws RemoteException {
-        return new ElevatorModel(elevatorInterface.getElevatorNum(), elevatorInterface.getFloorNum(), elevatorInterface.getFloorHeight());
+        return new ElevatorModel(hwManager.getElevatorNum(), hwManager.getFloorNum(), hwManager.getFloorHeight());
     }
 }

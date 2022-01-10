@@ -4,143 +4,123 @@ import java.rmi.RemoteException;
 
 /**
  * Class to handle cyclic updates of low level elevator system.
+ * 
  * @author Markus Lindner - s2010567018
  */
 public class ElevatorModelUpdater {
 
-    IElevator elevatorInterface;
-    ElevatorModel model;
+	IElevatorHardwareManager hwManager;
+	ElevatorModel model;
 
-    /**
-     * Constructor of the class.
-     * @param elevatorInterface The interface which should be used to communicate with low level elevator system.
-     * @param model The model which should be used to store the information at.
-     */
-    public ElevatorModelUpdater(IElevator elevatorInterface, ElevatorModel model) {
-        this.elevatorInterface = elevatorInterface;
-        this.model = model;
-    }
+	/**
+	 * Constructor of the class.
+	 * 
+	 * @param hwManager 		Unit which should be used to communicate
+	 *                          with low level elevator system.
+	 * @param model             The model which should be used to store the
+	 *                          information at.
+	 */
+	public ElevatorModelUpdater(IElevatorHardwareManager hwManager, ElevatorModel model) {
+		this.hwManager = hwManager;
+		this.model = model;
+	}
 
-    /**
-     * Uses the specified interface to get all information from the low level elevator system and stores the information
-     * using the specified model.
-     * This method should be called every 100 milliseconds.
-     */
-    public void UpdateModel() {
-        for(int i = 0; i < model.getNumOfElevators(); ++i) {
-            try {
-                model.setCommittedDirection(i, elevatorInterface.getCommittedDirection(i));
-            } catch(RemoteException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
+	/**
+	 * Uses the specified interface to get all information from the low level
+	 * elevator system and stores the information using the specified model. This
+	 * method should be called every 100 milliseconds.
+	 */
+	public void UpdateModel() {
+		try {
+			for (int i = 0; i < model.getNumOfElevators(); ++i) {
 
-            try {
-                model.setElevatorAccel(i, elevatorInterface.getElevatorAccel(i));
-            } catch(RemoteException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
+				int result = hwManager.getCommittedDirection(i);
+				if(model.getCommittedDirection(i) != result) {
+					model.setCommittedDirection(i, result);
+				}
 
-            try {
-                model.setElevatorDoorStatus(i, elevatorInterface.getElevatorDoorStatus(i));
-            } catch(RemoteException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
+				result = hwManager.getElevatorAccel(i);
+				if(model.getElevatorAccel(i) != result) {
+					model.setElevatorAccel(i, result);
+				}
+				
+				result = hwManager.getElevatorDoorStatus(i);
+				if(model.getElevatorDoorStatus(i) != result) {
+					model.setElevatorDoorStatus(i, result);
+				}
+				
+				result = hwManager.getElevatorFloor(i);
+				if(model.getElevatorFloor(i) != result) {
+					model.setElevatorFloor(i, result);
+				}
+				
+				result = hwManager.getElevatorPosition(i);
+				if(model.getElevatorPosition(i) != result) {
+					model.setElevatorPosition(i, result);
+				}
+				
+				result = hwManager.getElevatorSpeed(i);
+				if(model.getElevatorSpeed(i) != result) {
+					model.setElevatorSpeed(i, result);
+				}
+				
+				result = hwManager.getElevatorWeight(i);
+				if(model.getElevatorWeight(i) != result) {
+					model.setElevatorWeight(i, result);
+				}
+				
+				result = hwManager.getElevatorCapacity(i);
+				if(model.getElevatorCapacity(i) != result) {
+					model.setElevatorCapacity(i, result);
+				}
+				
+				result = hwManager.getTarget(i);
+				if(model.getTarget(i) != result) {
+					model.setTarget(i, result);
+				}
 
-            try {
-                model.setElevatorFloor(i, elevatorInterface.getElevatorFloor(i));
-            } catch(RemoteException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
+				UpdateServicedFloors(i);
+				UpdateElevatorButtons(i);
+			}
 
-            try {
-                model.setElevatorPosition(i, elevatorInterface.getElevatorPosition(i));
-            } catch(RemoteException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
+			for (int i = 0; i < model.getNumOfFloors(); ++i) {
+				boolean bRes = hwManager.getFloorButtonDown(i);
+				if(model.getFloorButtonDown(i) != bRes) {
+					model.setFloorButtonDown(i, bRes);
+				}
 
-            try {
-                model.setElevatorSpeed(i, elevatorInterface.getElevatorSpeed(i));
-            } catch(RemoteException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
+				bRes = hwManager.getFloorButtonUp(i);
+				if(model.getFloorButtonUp(i) != bRes) {
+					model.setFloorButtonUp(i, bRes);
+				}
+			}
 
-            try {
-                model.setElevatorWeight(i, elevatorInterface.getElevatorWeight(i));
-            } catch(RemoteException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
+			var clockTickData = hwManager.getClockTick();
+			if(model.getClockTick() != clockTickData) {
+				model.setClockTick(clockTickData);
+			}
 
-            try {
-                model.setElevatorCapacity(i, elevatorInterface.getElevatorCapacity(i));
-            } catch(RemoteException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+	}
 
-            try {
-                model.setTarget(i, elevatorInterface.getTarget(i));
-            } catch(RemoteException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
+	private void UpdateServicedFloors(int elevatorNumber) throws RemoteException {
+		for (int i = 0; i < model.getNumOfFloors(); ++i) {
 
-            UpdateServicedFloors(i);
-            UpdateElevatorButtons(i);
-        }
+			var result = hwManager.getServicesFloors(elevatorNumber, i);
+			if(model.getServicesFloors(elevatorNumber, i) != result) {
+				model.setServicesFloors(elevatorNumber, i, result);
+			}
+		}
+	}
 
-        for(int i = 0; i < model.getNumOfFloors(); ++i) {
-            try {
-                model.setFloorButtonDown(i, elevatorInterface.getFloorButtonDown(i));
-            } catch(RemoteException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
-
-            try {
-                model.setFloorButtonUp(i, elevatorInterface.getFloorButtonUp(i));
-            } catch(RemoteException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
-        }
-
-        try {
-            model.setClockTick(elevatorInterface.getClockTick());
-        } catch(RemoteException e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
-
-    }
-
-    private void UpdateServicedFloors(int elevatorNumber) {
-        for(int i = 0; i < model.getNumOfFloors(); ++i) {
-            try {
-                model.setServicesFloors(elevatorNumber, i,
-                        elevatorInterface.getServicesFloors(elevatorNumber, i));
-            } catch(RemoteException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void UpdateElevatorButtons(int elevatorNumber) {
-        for(int i = 0; i < model.getNumOfFloors(); ++i) {
-            try {
-                model.setElevatorButton(elevatorNumber, i,
-                        elevatorInterface.getElevatorButton(elevatorNumber, i));
-            } catch (RemoteException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
-        }
-    }
+	private void UpdateElevatorButtons(int elevatorNumber) throws RemoteException {
+		for (int i = 0; i < model.getNumOfFloors(); ++i) {
+			var result = hwManager.getElevatorButton(elevatorNumber, i);
+			if(model.getElevatorButton(elevatorNumber, i) != result) {
+				model.setElevatorButton(elevatorNumber, i, result);
+			}
+		}
+	}
 }

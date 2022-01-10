@@ -2,20 +2,31 @@ package at.fhhagenberg.sqe.ecc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 /**
  *
- * @author
+ * @author Bernhard Wandl - s2010567008
  */
 public class ElevatorModelTest {
-	
-	
-	ElevatorModel model = new ElevatorModel(3, 10, 4);
+
+	private static ElevatorModel model = new ElevatorModel(3, 10, 4);
+
+	@Mock
+	private static ElevatorGuiUpdater guiUpdater = mock(ElevatorGuiUpdater.class);
+
+	@BeforeAll
+	public static void setUpGuiUpdater() {
+		model.setGuiUpdater(guiUpdater);
+	}
 
 	@Test
-	void testElevatorModel_GetNumOfElevators()
+	public void testElevatorModel_GetNumOfElevators()
 	{
 		assertEquals(3, model.getNumOfElevators());
 	}

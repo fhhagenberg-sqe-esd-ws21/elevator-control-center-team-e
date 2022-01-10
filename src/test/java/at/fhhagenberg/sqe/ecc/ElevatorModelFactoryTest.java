@@ -16,11 +16,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(MockitoExtension.class)
 public class ElevatorModelFactoryTest {
 
-    @Mock IElevator elevatorInterfaceMock;
+    @Mock IElevatorHardwareManager hwManager;
 
     @Test
     void testElevatorModelGeneration() throws RemoteException {
-        ElevatorModelFactory factory = new ElevatorModelFactory(elevatorInterfaceMock);
+        ElevatorModelFactory factory = new ElevatorModelFactory(hwManager);
         ElevatorModel model = factory.CreateElevatorControlCenter();
         assertNotNull(model);
     }

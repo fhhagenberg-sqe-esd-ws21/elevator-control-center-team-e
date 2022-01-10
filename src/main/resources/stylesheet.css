@@ -1,0 +1,70 @@
+.elevator-box{
+	-fx-spacing:10;
+}
+
+.elevator{
+	-fx-padding:10;
+	-fx-min-width:150;
+	-fx-alignment:center;
+	-fx-border-color:black;
+    -fx-border-width:2;
+    -fx-border-radius:10;
+    -fx-background-color: white;
+}
+
+.elevator-title{
+	-fx-font-size:16pt;
+	-fx-padding:0 0 20 0;
+}
+
+.auto{
+	-fx-min-width:60px;
+}
+
+.manual{
+	-fx-min-width:60px;
+}
+
+.elevator-floors{
+	-fx-alignment:center;
+}
+
+.elevator .btn-up {
+	-fx-padding:20 5 20 5;
+	-fx-background-insets: 15 0 15 0;
+    -fx-border-insets: 15 0 15 0;
+    -fx-min-width:50px;
+}
+
+.elevator .btn-down {
+	-fx-padding:20 5 20 5;
+	-fx-background-insets: 15 0 15 0;
+    -fx-border-insets: 15 0 15 0;
+    -fx-min-width:50px;
+}
+
+#call-button-box{
+	-fx-padding:10 20;
+}
+
+#call-button-title{
+	-fx-font-size:16pt;
+	-fx-padding:0 0 120 0;
+}
+
+.call-button-floor-box{
+	-fx-spacing:10;
+}
+
+.call-button-label{
+	-fx-min-width:40px;
+}
+
+.floor-button{
+	-fx-min-width:30px;
+}
+
+.disabledButton{
+	-fx-background-color: red;
+}
+

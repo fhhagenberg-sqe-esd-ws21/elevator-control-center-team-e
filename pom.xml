@@ -30,6 +30,11 @@
     </dependencyManagement>
 
     <dependencies>
+    	<dependency>
+    		<groupId>org.openjfx</groupId>
+    		<artifactId>javafx-fxml</artifactId>
+    		<version>11.0.1</version>
+    	</dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -68,6 +73,9 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.0.0-M5</version>
+                    <configuration>
+        				<trimStackTrace>false</trimStackTrace>
+    				</configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -78,7 +86,7 @@
                 <version>0.0.8</version>
                 <configuration>
                     <launcher>launcher</launcher>
-                    <mainClass>at.fhhagenberg.sqe.App</mainClass>
+                    <mainClass>at.fhhagenberg.sqe.ecc.ElevatorMain</mainClass>
                 </configuration>
             </plugin>
             <plugin>
