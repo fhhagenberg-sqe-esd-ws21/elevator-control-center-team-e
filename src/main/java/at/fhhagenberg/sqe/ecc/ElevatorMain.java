@@ -3,6 +3,7 @@ package at.fhhagenberg.sqe.ecc;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -22,41 +23,45 @@ public class ElevatorMain extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        try {
+            //IElevatorHardwareManager hwManager = new MockElevatorHardwareManager();
+            //IElevatorHardwareManager hwManager = ElevatorConnectionSetup.ElevatorConnectionSetup();
+            IElevatorHardwareManager hwManager = new ElevatorHardwareManager(ElevatorConnectionSetup.ElevatorConnectionSetup());
 
-        //IElevatorHardwareManager hwManager = new MockElevatorHardwareManager();
+            ElevatorModelFactory modelFactory = new ElevatorModelFactory(hwManager);
+            ElevatorModel model = modelFactory.CreateElevatorControlCenter();
 
-        IElevatorHardwareManager hwManager = ElevatorConnectionSetup.ElevatorConnectionSetup();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/GUIMock.fxml"));
+            BorderPane content = loader.<BorderPane>load();
 
-        ElevatorModelFactory modelFactory = new ElevatorModelFactory(hwManager);
-        ElevatorModel model = modelFactory.CreateElevatorControlCenter();
+            ElevatorGui gui = loader.getController();
+            gui.setModel(model);
+            gui.setHwManager(hwManager);
+            gui.InitGui();
 
-    	FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUIMock.fxml"));
-        BorderPane content = loader.<BorderPane>load();
+            ElevatorModelUpdater modelUpdater = new ElevatorModelUpdater(hwManager, model);
+            ElevatorGuiUpdater guiUpdater = new ElevatorGuiUpdater(gui);
+            model.setGuiUpdater(guiUpdater);
 
-        ElevatorGui gui = loader.getController();
-        gui.setModel(model);
-        gui.setHwManager(hwManager);
-        gui.InitGui();
+            Scene scene = new Scene(content);
+            scene.getStylesheets().add(getClass().getResource("/stylesheet.css").toString());
+            primaryStage.setScene(scene);
+            primaryStage.show();
 
-        ElevatorModelUpdater modelUpdater = new ElevatorModelUpdater(hwManager, model);
-        ElevatorGuiUpdater guiUpdater = new ElevatorGuiUpdater(gui);
-        model.setGuiUpdater(guiUpdater);
-
-        Scene scene = new Scene(content);
-        scene.getStylesheets().add(getClass().getResource("/stylesheet.css").toString());
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        Runnable periodicTask = new Runnable() {
-            public void run() {
-                // Invoke method(s) to do the work
-                modelUpdater.UpdateModel();
-                //guiUpdater.UpdateGui();
-            }
-        };
-        executor.scheduleAtFixedRate(periodicTask, 0, 100, TimeUnit.MILLISECONDS);
-        model.initialGuiUpdate();
+            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+            Runnable periodicTask = new Runnable() {
+                public void run() {
+                    modelUpdater.UpdateModel();
+                }
+            };
+            executor.scheduleAtFixedRate(periodicTask, 0, 100, TimeUnit.MILLISECONDS);
+            model.initialGuiUpdate();
+        }catch(Exception e) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setHeaderText("Internal error occured. Please try to restart the application.");
+            a.setContentText(e.toString());
+            a.show();
+        }
     }
 }

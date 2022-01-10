@@ -1,5 +1,7 @@
 package at.fhhagenberg.sqe.ecc;
 
+import sqelevator.IElevator;
+
 import java.rmi.RemoteException;
 import java.util.EventListener;
 
@@ -9,9 +11,9 @@ import java.util.EventListener;
  */
 public class ElevatorModelFactory {
 
-    IElevatorHardwareManager hwManager;
+    IElevator hwManager;
 
-    public ElevatorModelFactory(IElevatorHardwareManager hwManager) {
+    public ElevatorModelFactory(IElevator hwManager) {
         this.hwManager = hwManager;
     }
 

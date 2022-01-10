@@ -2,7 +2,10 @@ package at.fhhagenberg.sqe.ecc;
 
 import sqelevator.IElevator;
 
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
@@ -13,6 +16,7 @@ import java.rmi.RemoteException;
 public class ElevatorHardwareManager implements IElevatorHardwareManager {
 
     private IElevator controller;
+    private boolean isConnected;
 
     /**
      * Constructor of the class. Establishes a connection to low level elevator system.
@@ -24,6 +28,22 @@ public class ElevatorHardwareManager implements IElevatorHardwareManager {
             throw new IllegalArgumentException("Please establish connection to low-level elevator system.");
 
         this.controller = controller;
+        this.isConnected = true;
+    }
+
+    @Override
+    public boolean getIsConnected() {
+        return isConnected;
+    }
+
+    @Override
+    public void setIsConnected(boolean isConnected) {
+        this.isConnected = isConnected;
+    }
+
+    public void reconnect() throws Exception {
+        controller = ElevatorConnectionSetup.ElevatorConnectionSetup();
+        isConnected = true;
     }
 
     @Override
@@ -126,30 +146,30 @@ public class ElevatorHardwareManager implements IElevatorHardwareManager {
         return controller.getClockTick();
     }
 
-    @Override
-    public void wrappedSetServicesFloors(int elevatorNumber, int floor, boolean service) {
-        try {
-            setServicesFloors(elevatorNumber, floor, service);
-        } catch (RemoteException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-    @Override
-    public void wrappedSetTarget(int elevatorNumber, int target) {
-        try {
-            setTarget(elevatorNumber, target);
-        } catch (RemoteException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-    @Override
-    public void wrappedSetCommittedDirection(int elevatorNumber, int direction) {
-        try {
-            setCommittedDirection(elevatorNumber, direction);
-        } catch (RemoteException e) {
-            System.err.println(e.getMessage());
-        }
-    }
+//    @Override
+//    public void wrappedSetServicesFloors(int elevatorNumber, int floor, boolean service) {
+//        try {
+//            setServicesFloors(elevatorNumber, floor, service);
+//        } catch (RemoteException e) {
+//            System.err.println(e.getMessage());
+//        }
+//    }
+//
+//    @Override
+//    public void wrappedSetTarget(int elevatorNumber, int target) {
+//        try {
+//            setTarget(elevatorNumber, target);
+//        } catch (RemoteException e) {
+//            System.err.println(e.getMessage());
+//        }
+//    }
+//
+//    @Override
+//    public void wrappedSetCommittedDirection(int elevatorNumber, int direction) {
+//        try {
+//            setCommittedDirection(elevatorNumber, direction);
+//        } catch (RemoteException e) {
+//            System.err.println(e.getMessage());
+//        }
+//    }
 }

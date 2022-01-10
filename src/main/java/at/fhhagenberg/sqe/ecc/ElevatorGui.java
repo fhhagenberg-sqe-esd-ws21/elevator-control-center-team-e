@@ -95,7 +95,7 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 				}
 			}
 		}catch(RemoteException e) {
-			model.setErrorMessage("Connection Error: Please check connection to low-level elevator system.");
+			System.err.println(e.getMessage());
 		}
 	}
 

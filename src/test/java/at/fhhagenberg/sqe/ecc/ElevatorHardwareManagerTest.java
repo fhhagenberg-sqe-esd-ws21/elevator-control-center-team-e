@@ -232,43 +232,4 @@ public class ElevatorHardwareManagerTest {
         verify(controller, times(1)).getClockTick();
         assertEquals(Long.valueOf(1122334455), result);
     }
-
-    @Test
-    public void testWrappedSetTarget() throws Exception {
-        ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
-        assertDoesNotThrow(() -> hwManager.wrappedSetTarget(4728, 44));
-    }
-
-    @Test
-    public void testWrappedSetTarget_RemoteException() throws Exception {
-        ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
-        doThrow(new RemoteException()).when(controller).setTarget(4729, 45);
-        assertDoesNotThrow(() -> hwManager.wrappedSetTarget(4729, 45));
-    }
-
-    @Test
-    public void testWrappedSetServicesFloors() throws Exception {
-        ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
-        assertDoesNotThrow(() -> hwManager.wrappedSetServicesFloors(4730, 46, true));
-    }
-
-    @Test
-    public void testWrappedSetServicesFloors_RemoteException() throws Exception {
-        ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
-        doThrow(new RemoteException()).when(controller).setServicesFloors(4731, 47, false);
-        assertDoesNotThrow(() -> hwManager.wrappedSetServicesFloors(4731, 47, false));
-    }
-
-    @Test
-    public void testWrappedSetCommittedDirection() throws Exception {
-        ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
-        assertDoesNotThrow(() -> hwManager.wrappedSetCommittedDirection(4732, IElevator.ELEVATOR_DIRECTION_DOWN));
-    }
-
-    @Test
-    public void testWrappedSetCommittedDirection_RemoteException() throws Exception {
-        ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
-        doThrow(new RemoteException()).when(controller).setCommittedDirection(4733, IElevator.ELEVATOR_DIRECTION_UP);
-        assertDoesNotThrow(() -> hwManager.wrappedSetCommittedDirection(4733, IElevator.ELEVATOR_DIRECTION_UP));
-    }
 }
