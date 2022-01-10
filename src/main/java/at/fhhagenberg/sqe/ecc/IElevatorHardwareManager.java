@@ -8,34 +8,20 @@ import sqelevator.IElevator;
  */
 public interface IElevatorHardwareManager extends IElevator {
 
-//    /**
-//     * Handles throwing exception from IElevator interface method setServicesFloors().
-//     * @param elevatorNumber The number of the elevator for which the serviced floors should be changed.
-//     * @param floor The actual floor for which the serviced status should be changed.
-//     * @param service Specifies if floor should be serviced or not.
-//     */
-//    public void wrappedSetServicesFloors(int elevatorNumber, int floor, boolean service);
-//
-//    /**
-//     * Handles throwing exception from IElevator interface setTarget().
-//     * @param elevatorNumber The number of the elevator for which the target floor should be set.
-//     * @param target The actual target floor the elevator should aim for.
-//     */
-//    public void wrappedSetTarget(int elevatorNumber, int target);
-//
-//    /**
-//     * Handles throwing exception from IElevator interface setCommittedDirection().
-//     * @param elevatorNumber The number of the elevator for which the commited direction should be set.
-//     * @param direction The actual direction the elevator should take (UP, DOWN, UNCOMMITED).
-//     */
-//    public void wrappedSetCommittedDirection(int elevatorNumber, int direction);
-
     /**
      * Tries to reestablish a lost connection to the low-level elevator system.
      */
     public void reconnect() throws Exception;
 
+    /**
+     * Returns if there is a stable connection or not.
+     * @return True if there is a stable connection to the low-level elevator system, false otherwise.
+     */
     public boolean getIsConnected();
 
+    /**
+     * Setter to manipulate the state of the connection to the low-level elevator system.
+     * @param isConnected If the connection is established or not.
+     */
     public void setIsConnected(boolean isConnected);
 }

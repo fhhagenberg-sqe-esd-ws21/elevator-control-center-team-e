@@ -25,7 +25,6 @@ public class ElevatorMain extends Application{
     public void start(Stage primaryStage) throws Exception {
         try {
             //IElevatorHardwareManager hwManager = new MockElevatorHardwareManager();
-            //IElevatorHardwareManager hwManager = ElevatorConnectionSetup.ElevatorConnectionSetup();
             IElevatorHardwareManager hwManager = new ElevatorHardwareManager(ElevatorConnectionSetup.ElevatorConnectionSetup());
 
             ElevatorModelFactory modelFactory = new ElevatorModelFactory(hwManager);

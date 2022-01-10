@@ -145,31 +145,4 @@ public class ElevatorHardwareManager implements IElevatorHardwareManager {
     public long getClockTick() throws RemoteException {
         return controller.getClockTick();
     }
-
-//    @Override
-//    public void wrappedSetServicesFloors(int elevatorNumber, int floor, boolean service) {
-//        try {
-//            setServicesFloors(elevatorNumber, floor, service);
-//        } catch (RemoteException e) {
-//            System.err.println(e.getMessage());
-//        }
-//    }
-//
-//    @Override
-//    public void wrappedSetTarget(int elevatorNumber, int target) {
-//        try {
-//            setTarget(elevatorNumber, target);
-//        } catch (RemoteException e) {
-//            System.err.println(e.getMessage());
-//        }
-//    }
-//
-//    @Override
-//    public void wrappedSetCommittedDirection(int elevatorNumber, int direction) {
-//        try {
-//            setCommittedDirection(elevatorNumber, direction);
-//        } catch (RemoteException e) {
-//            System.err.println(e.getMessage());
-//        }
-//    }
 }
