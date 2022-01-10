@@ -36,24 +36,35 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 	private HBox elevators;
 	@FXML
 	private VBox callButtons;
+	
+	private int ScanElevator(Node node) {
+		Scanner s = new Scanner(node.getId());
+		int elevator = 0;
+		try {
+			elevator = s.useDelimiter("\\D+").nextInt();
+		}finally {
+			s.close();
+		}
+		return elevator;
+	}
 
 	@Override
 	public void handle(MouseEvent event) {
 		Button b = (Button) event.getSource();
 
 		if (b.getStyleClass().contains("auto")) {
-			int elevator = new Scanner(b.getId()).useDelimiter("\\D+").nextInt();
+			int elevator = ScanElevator(b);
 			Node btnManual = elevators.lookup("#buttonManual" + Integer.toString(elevator));
 			btnManual.setDisable(false);
 			b.setDisable(true);
 		} else if (b.getStyleClass().contains("manual")) {
-			int elevator = new Scanner(b.getId()).useDelimiter("\\D+").nextInt();
+			int elevator = ScanElevator(b);
 			Node btnAuto = elevators.lookup("#buttonAuto" + Integer.toString(elevator));
 			btnAuto.setDisable(false);
 			b.setDisable(true);
 		} else if (b.getStyleClass().contains("floor-button")) {
 			VBox floorList = (VBox) b.getParent();
-			int elevator = new Scanner(floorList.getId()).useDelimiter("\\D+").nextInt();
+			int elevator = ScanElevator(floorList);
 			int floor = floorList.getChildren().size() - 1 - floorList.getChildren().indexOf(b);
 			
 			if(event.getButton().equals(MouseButton.PRIMARY)) {
@@ -61,10 +72,9 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 			} else if (event.getButton().equals(MouseButton.SECONDARY)){
 				hwManager.wrappedSetServicesFloors(elevator, floor, !model.getServicesFloors(elevator, floor));
 			}
-			System.out.println(Integer.toString(elevator) + ", " + Integer.toString(floor));
 			
 		} else if(b.getStyleClass().contains("btn-up")) {
-			int elevator = new Scanner(b.getId()).useDelimiter("\\D+").nextInt();
+			int elevator = ScanElevator(b);
 					
 			if (model.getCommittedDirection(elevator) == IElevator.ELEVATOR_DIRECTION_UP) {
 				// set direction uncommited
@@ -74,10 +84,8 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 				hwManager.wrappedSetCommittedDirection(elevator, IElevator.ELEVATOR_DIRECTION_UP);
 			}
 			
-			System.out.println(Integer.toString(elevator));
-			
 		} else if(b.getStyleClass().contains("btn-down")) {
-			int elevator = new Scanner(b.getId()).useDelimiter("\\D+").nextInt();
+			int elevator = ScanElevator(b);
 			
 			if (model.getCommittedDirection(elevator) == IElevator.ELEVATOR_DIRECTION_DOWN) {
 				// set direction uncommited
@@ -86,8 +94,6 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 				// set direction down
 				hwManager.wrappedSetCommittedDirection(elevator, IElevator.ELEVATOR_DIRECTION_DOWN);
 			}
-			
-			System.out.println(Integer.toString(elevator));
 		}
 	}
 

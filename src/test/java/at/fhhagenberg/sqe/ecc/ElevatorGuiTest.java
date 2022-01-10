@@ -45,14 +45,13 @@ public class ElevatorGuiTest {
         BorderPane content = loader.<BorderPane>load();
         
         loader.<ElevatorGui>getController().setModel(model);
-        //loader.<ElevatorGui>getController().setCo(model);
         loader.<ElevatorGui>getController().InitGui();
         
         gui = loader.<ElevatorGui>getController();
 		guiUpdater = new ElevatorGuiUpdater(gui);
 		model.setGuiUpdater(guiUpdater);
     	
-        Scene scene = new Scene(content);
+        Scene scene = new Scene(content, 1000, 800);
         stage.setScene(scene);
         stage.show();
 	}
