@@ -1,9 +1,7 @@
 package at.fhhagenberg.sqe.ecc;
 
 import sqelevator.IElevator;
-
 import java.rmi.RemoteException;
-import java.util.EventListener;
 
 /**
  *

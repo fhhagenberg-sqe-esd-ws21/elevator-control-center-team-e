@@ -1,7 +1,6 @@
 package at.fhhagenberg.sqe.ecc;
 
 import sqelevator.IElevator;
-
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -157,31 +156,4 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
     public long getClockTick() throws RemoteException {
         return 123456789;
     }
-
-//    @Override
-//    public void wrappedSetServicesFloors(int elevatorNumber, int floor, boolean service) {
-//        try {
-//            setServicesFloors(elevatorNumber, floor, service);
-//        } catch (RemoteException e) {
-//            System.err.println(e.getMessage());
-//        }
-//    }
-//
-//    @Override
-//    public void wrappedSetTarget(int elevatorNumber, int target) {
-//        try {
-//            setTarget(elevatorNumber, target);
-//        } catch (RemoteException e) {
-//            System.err.println(e.getMessage());
-//        }
-//    }
-//
-//    @Override
-//    public void wrappedSetCommittedDirection(int elevatorNumber, int direction) {
-//        try {
-//            setCommittedDirection(elevatorNumber, direction);
-//        } catch (RemoteException e) {
-//            System.err.println(e.getMessage());
-//        }
-//    }
 }

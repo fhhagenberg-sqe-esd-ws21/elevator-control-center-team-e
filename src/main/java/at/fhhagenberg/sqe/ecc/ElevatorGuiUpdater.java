@@ -1,13 +1,6 @@
 package at.fhhagenberg.sqe.ecc;
 
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-
-import java.rmi.RemoteException;
 
 /**
  * Info
