@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class MockElevatorHardwareManager implements IElevatorHardwareManager {
 
+    private boolean isConnected;
     private List<List<Boolean>> servicesFloors;
     private List<Integer> commitedDirecton;
     private List<Integer> targetFloor;
@@ -38,11 +39,13 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
             commitedDirecton.add(IElevator.ELEVATOR_DIRECTION_UNCOMMITTED);
             targetFloor.add(0);
         }
+
+        isConnected = true;
     }
 
     @Override
     public void reconnect() {
-
+        System.out.println("Try to reconnect...");
     }
 
     @Override
@@ -52,7 +55,7 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
 
     @Override
     public void setIsConnected(boolean isConnected) {
-
+        this.isConnected = isConnected;
     }
 
     @Override

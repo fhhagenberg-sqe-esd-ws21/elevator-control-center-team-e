@@ -1,11 +1,6 @@
 package at.fhhagenberg.sqe.ecc;
 
 import sqelevator.IElevator;
-
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
@@ -42,8 +37,10 @@ public class ElevatorHardwareManager implements IElevatorHardwareManager {
     }
 
     public void reconnect() throws Exception {
-        controller = ElevatorConnectionSetup.ElevatorConnectionSetup();
-        isConnected = true;
+        if(!isConnected) {
+            controller = ElevatorConnectionManager.ElevatorConnectionSetup();
+            isConnected = true;
+        }
     }
 
     @Override

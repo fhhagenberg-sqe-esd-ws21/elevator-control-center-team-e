@@ -232,4 +232,28 @@ public class ElevatorHardwareManagerTest {
         verify(controller, times(1)).getClockTick();
         assertEquals(Long.valueOf(1122334455), result);
     }
+
+    @Test
+    void testGetIsConnected() {
+        ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
+        assertTrue(hwManager.getIsConnected());
+    }
+
+    @Test
+    void testSetIsConnected() {
+        ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
+
+        hwManager.setIsConnected(false);
+        assertFalse(hwManager.getIsConnected());
+    }
+
+    @Test
+    void testReconnect() {
+        ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
+
+        hwManager.setIsConnected(false);
+
+        assertThrows(RemoteException.class, () -> hwManager.reconnect());
+        assertFalse(hwManager.getIsConnected());
+    }
 }
