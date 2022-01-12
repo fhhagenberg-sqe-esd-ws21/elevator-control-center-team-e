@@ -8,6 +8,7 @@ import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
@@ -218,6 +219,26 @@ public class ElevatorGuiTest {
 		assertEquals("0", floor.getText());
 		assertTrue(floor.getStyleClass().contains("disabledButton"));
 	}
+	
+	@Test
+	public void testAutoManual(FxRobot robot) {
+		
+		Button auto = (Button) robot.lookup("#Elevator2 .auto").<Button>query();
+		Button manual = (Button) robot.lookup("#Elevator2 .manual").<Button>query();
+		
+		robot.clickOn(auto);
+		
+		WaitForAsyncUtils.waitForFxEvents();
+		assertTrue(auto.isDisabled());
+		assertFalse(manual.isDisabled());
+		
+		robot.clickOn(manual);
+		
+		WaitForAsyncUtils.waitForFxEvents();
+		assertFalse(auto.isDisabled());
+		assertTrue(manual.isDisabled());
+	}
+
 
 }
 
