@@ -135,6 +135,12 @@ public class MockedEndToEndTest {
     public void testReconnection(FxRobot robot) {
     	hwManager.setIsElevatorReachable(false);
     	hwManager.setIsConnected(false);
+    	
+    	try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			System.err.println(e.getMessage());
+		}
     	WaitForAsyncUtils.waitForFxEvents();
     	verifyThat("#errorMsgLabel", hasText("Connection Error: Please check connection to low-level elevator system."));
     	hwManager.setIsElevatorReachable(true);
