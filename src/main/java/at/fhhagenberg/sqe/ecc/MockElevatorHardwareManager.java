@@ -14,6 +14,7 @@ import java.util.List;
 public class MockElevatorHardwareManager implements IElevatorHardwareManager {
 
     private boolean isConnected;
+    private boolean isElevatorReachable;
     private List<List<Boolean>> servicesFloors;
     private List<Integer> commitedDirecton;
     private List<Integer> targetFloor;
@@ -40,6 +41,15 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
         }
 
         isConnected = true;
+        this.isElevatorReachable = true;
+    }
+    
+    /**
+     * Gets the current state of the Elevator connection.
+     * @param value - value if elevator is reachable or not
+     */
+    public void setIsElevatorReachable(boolean value) {
+    	this.isElevatorReachable = value;
     }
 
     /**
@@ -48,7 +58,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public void reconnect() {
-        System.out.println("Try to reconnect...");
+    	if (this.isElevatorReachable) {
+    		this.isConnected = true;
+    	}
     }
 
     /**
@@ -57,7 +69,7 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public boolean getIsConnected() {
-        return true;
+        return this.isConnected;
     }
 
     /**
@@ -77,6 +89,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public int getCommittedDirection(int elevatorNumber) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return commitedDirecton.get(elevatorNumber);
     }
 
@@ -87,6 +102,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public int getElevatorAccel(int elevatorNumber) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return 536 + elevatorNumber;
     }
 
@@ -99,6 +117,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public boolean getElevatorButton(int elevatorNumber, int floor) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return true;
     }
 
@@ -110,6 +131,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public int getElevatorDoorStatus(int elevatorNumber) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return 3;
     }
 
@@ -121,6 +145,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public int getElevatorFloor(int elevatorNumber) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return 2;
     }
 
@@ -131,6 +158,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public int getElevatorNum() throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return constantNumberOfElevators;
     }
 
@@ -142,6 +172,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public int getElevatorPosition(int elevatorNumber) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return 3;
     }
 
@@ -153,6 +186,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public int getElevatorSpeed(int elevatorNumber) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return 789 + elevatorNumber;
     }
 
@@ -164,6 +200,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public int getElevatorWeight(int elevatorNumber) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return 444 + elevatorNumber;
     }
 
@@ -175,6 +214,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public int getElevatorCapacity(int elevatorNumber) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return 1234 + elevatorNumber;
     }
 
@@ -186,6 +228,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public boolean getFloorButtonDown(int floor) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return false;
     }
 
@@ -197,6 +242,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public boolean getFloorButtonUp(int floor) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return false;
     }
 
@@ -207,6 +255,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public int getFloorHeight() throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return 4711;
     }
 
@@ -217,6 +268,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public int getFloorNum() throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return constantNumberOfFloors;
     }
 
@@ -229,6 +283,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public boolean getServicesFloors(int elevatorNumber, int floor) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return servicesFloors.get(elevatorNumber).get(floor);
     }
 
@@ -240,6 +297,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public int getTarget(int elevatorNumber) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return targetFloor.get(elevatorNumber);
     }
 
@@ -251,6 +311,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public void setCommittedDirection(int elevatorNumber, int direction) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         commitedDirecton.set(elevatorNumber, direction);
     }
 
@@ -263,6 +326,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public void setServicesFloors(int elevatorNumber, int floor, boolean service) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         servicesFloors.get(elevatorNumber).set(floor, service);
     }
 
@@ -274,6 +340,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public void setTarget(int elevatorNumber, int target) throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         targetFloor.set(elevatorNumber, target);
     }
 
@@ -284,6 +353,9 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
      */
     @Override
     public long getClockTick() throws RemoteException {
+    	if (!this.isConnected) {
+    		throw new RemoteException();
+    	}
         return 123456789;
     }
 }

@@ -38,7 +38,7 @@ import static org.testfx.matcher.control.LabeledMatchers.hasText;
 @ExtendWith(ApplicationExtension.class)
 public class MockedEndToEndTest {
 
-    private IElevatorHardwareManager hwManager;
+    private MockElevatorHardwareManager hwManager;
     private ElevatorModelFactory modelFactory;
     private ElevatorModel model;
     private ElevatorGui gui;
@@ -129,6 +129,28 @@ public class MockedEndToEndTest {
 		robot.rightClickOn(btn);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertTrue(btn.getStyleClass().contains("disabledButton"));
+    }
+    
+    @Test
+    public void testReconnection(FxRobot robot) {
+    	hwManager.setIsElevatorReachable(false);
+    	hwManager.setIsConnected(false);
+    	
+    	try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			System.err.println(e.getMessage());
+		}
+    	WaitForAsyncUtils.waitForFxEvents();
+    	verifyThat("#errorMsgLabel", hasText("Connection Error: Please check connection to low-level elevator system."));
+    	hwManager.setIsElevatorReachable(true);
+    	try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			System.err.println(e.getMessage());
+		}
+    	WaitForAsyncUtils.waitForFxEvents();
+    	verifyThat("#errorMsgLabel", hasText("Status: OK!"));
     }
 
 
