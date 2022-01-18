@@ -234,41 +234,26 @@ public class ElevatorHardwareManagerTest {
     }
 
     @Test
-    public void testWrappedSetTarget() throws Exception {
+    void testGetIsConnected() {
         ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
-        assertDoesNotThrow(() -> hwManager.wrappedSetTarget(4728, 44));
+        assertTrue(hwManager.getIsConnected());
     }
 
     @Test
-    public void testWrappedSetTarget_RemoteException() throws Exception {
+    void testSetIsConnected() {
         ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
-        doThrow(new RemoteException()).when(controller).setTarget(4729, 45);
-        assertDoesNotThrow(() -> hwManager.wrappedSetTarget(4729, 45));
+
+        hwManager.setIsConnected(false);
+        assertFalse(hwManager.getIsConnected());
     }
 
     @Test
-    public void testWrappedSetServicesFloors() throws Exception {
+    void testReconnect() {
         ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
-        assertDoesNotThrow(() -> hwManager.wrappedSetServicesFloors(4730, 46, true));
-    }
 
-    @Test
-    public void testWrappedSetServicesFloors_RemoteException() throws Exception {
-        ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
-        doThrow(new RemoteException()).when(controller).setServicesFloors(4731, 47, false);
-        assertDoesNotThrow(() -> hwManager.wrappedSetServicesFloors(4731, 47, false));
-    }
+        hwManager.setIsConnected(false);
 
-    @Test
-    public void testWrappedSetCommittedDirection() throws Exception {
-        ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
-        assertDoesNotThrow(() -> hwManager.wrappedSetCommittedDirection(4732, IElevator.ELEVATOR_DIRECTION_DOWN));
-    }
-
-    @Test
-    public void testWrappedSetCommittedDirection_RemoteException() throws Exception {
-        ElevatorHardwareManager hwManager = new ElevatorHardwareManager(controller);
-        doThrow(new RemoteException()).when(controller).setCommittedDirection(4733, IElevator.ELEVATOR_DIRECTION_UP);
-        assertDoesNotThrow(() -> hwManager.wrappedSetCommittedDirection(4733, IElevator.ELEVATOR_DIRECTION_UP));
+        assertThrows(RemoteException.class, () -> hwManager.reconnect());
+        assertFalse(hwManager.getIsConnected());
     }
 }

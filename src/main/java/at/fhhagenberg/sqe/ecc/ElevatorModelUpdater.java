@@ -1,6 +1,5 @@
 package at.fhhagenberg.sqe.ecc;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
@@ -33,6 +32,11 @@ public class ElevatorModelUpdater {
 	 */
 	public void UpdateModel() {
 		try {
+
+			if(!hwManager.getIsConnected()) {
+				hwManager.reconnect();
+			}
+
 			for (int i = 0; i < model.getNumOfElevators(); ++i) {
 
 				int result = hwManager.getCommittedDirection(i);
@@ -101,7 +105,10 @@ public class ElevatorModelUpdater {
 				model.setClockTick(clockTickData);
 			}
 
-		} catch (RemoteException e) {
+			model.setErrorMessage("Status: OK!");
+
+		} catch (Exception e) {
+			hwManager.setIsConnected(false);
 			System.err.println(e.getMessage());
 			model.setErrorMessage("Connection Error: Please check connection to low-level elevator system.");
 		}

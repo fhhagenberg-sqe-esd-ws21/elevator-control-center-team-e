@@ -1,37 +1,23 @@
-# Graphical User Interface with JavaFx
+# Elevator Control Center using RMI and JavaFx
 
-### Prerequisites
+## Running the application
+### Requirements
+The RMI service for the hardware controller to query must be started beforehand (see separate project).
 
-- [x] Java 13 SDK (e.g. Oracle or OpenJDK).
-- [x] Maven 3. (If you use an IDE like Eclipse or IntelliJ, Maven is **already included** :sunglasses:.)
-	- see http://maven.apache.org/install.html
-- [x] An IDE or code editor of your choice.
+### Starting the application
+Then, the application can be started with the maven command javafx:run. This calls the main function in ``src/main/java/at/fhhagenberg/sqe/ecc/ElevatorMain.java``
+If everything works correctly, a GUI similar to the following image should appear.
+![GUI in action](./documentation/ECC_in_action_2.png)
+On the left are up and down button states for every possible floor. To the right, all elevators are listed.
+Called floors are shown with green buttons, while unserviced floors have inactive buttons. Manual and automatic mode can be switched at the very top.
+Below the buttons, labels with information about the elevator status are shown. At the very buttom of the GUI window, status messages can appear.
 
-> Confirm your installation with `mvn -v` in a new shell. The result should be similar to:
+## Tests
+### Unit tests
+Unit tests using JUnit can be found in ``test/java/...``
+These tests use boundary values to test many scenarios with a minimum number of test cases to maintain.
+Mockito is used for simple mocks.
 
-```
-$ mvn -v
-Apache Maven 3.6.2 (40f52333136460af0dc0d7232c0dc0bcf0d9e117; 2019-08-27T17:06:16+02:00)
-Maven home: C:\Users\winterer\.tools\apache-maven-3.6.2
-Java version: 13, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk-13
-Default locale: en_GB, platform encoding: Cp1252
-OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
-```
-
-### Instructions
-
-This maven project is already set up for JavaFx based GUI applications. It also contains a small example application - `App.java`.
-
-1. Import this git repository into your favourite IDE.
-
-1. Make sure, you can run the sample application without errors.
-	- Either run it in your IDE
-	- Via command line, run it with `mvn clean javafx:run`.
-
-You can build your project with maven with
-
-```
-mvn clean package
-```
-
-The resulting archive (`.jar` file) is in the `target` directory.
+### End-to-End test
+An end-to-end test can be found in ``src/test/java/at/fhhagenberg/sqe/ecc/MockedEndToEndTest.java``
+It provides a mocked backend to display dummy values in the GUI.

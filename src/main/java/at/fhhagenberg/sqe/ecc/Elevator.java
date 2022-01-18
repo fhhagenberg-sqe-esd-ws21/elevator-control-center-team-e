@@ -1,7 +1,6 @@
 package at.fhhagenberg.sqe.ecc;
 
 import sqelevator.IElevator;
-
 import java.util.ArrayList;
 import java.util.List;
 

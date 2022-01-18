@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,14 +76,14 @@ public class MockedEndToEndTest {
             }
         };
         executor.scheduleAtFixedRate(periodicTask, 0, 100, TimeUnit.MILLISECONDS);
-        model.initialGuiUpdate();
     }
 
     @Test
     public void testButtonUp(FxRobot robot) {
 
     	Button btn = robot.lookup("#Elevator0 .btn-up").<Button>query();
-    	robot.clickOn(btn);
+        model.initialGuiUpdate();
+        robot.clickOn(btn);
     	WaitForAsyncUtils.waitForFxEvents();
     	assertEquals(Color.RED, btn.getTextFill());
     	robot.clickOn(btn);
@@ -113,7 +114,7 @@ public class MockedEndToEndTest {
 		WaitForAsyncUtils.waitForFxEvents();
 		verifyThat("#Elevator1 .target-label", hasText("Target: 2"));
     }
-    
+
     @Test
     public void testSetServicesFloor(FxRobot robot) {
 

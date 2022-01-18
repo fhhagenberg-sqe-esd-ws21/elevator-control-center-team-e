@@ -44,6 +44,10 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 		return elevator;
 	}
 
+	/**
+	 * Handles any mouse click events on GUI elements (buttons)
+	 * @param event The event to be processed.
+	 */
 	@Override
 	public void handle(MouseEvent event) {
 		Button b = (Button) event.getSource();
@@ -95,7 +99,7 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 				}
 			}
 		}catch(RemoteException e) {
-			model.setErrorMessage("Connection Error: Please check connection to low-level elevator system.");
+			System.err.println(e.getMessage());
 		}
 	}
 
@@ -179,6 +183,9 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 		return pane;
 	}
 
+	/**
+	 * Initializes the GUI for the number of floors and elevators reported by the backend.
+	 */
 	@FXML
 	public void InitGui() {
 
@@ -216,14 +223,26 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 
 	}
 
+	/**
+	 * Sets a new model to query for elevator status.
+	 * @param model The model to use.
+	 */
 	public void setModel(ElevatorModel model) {
 		this.model = model;
 	}
 
+	/**
+	 * Sets a new hardware manager to send commited directions, targets and services floors to.
+	 * @param hwManager The hardware manager to use.
+	 */
 	public void setHwManager(IElevatorHardwareManager hwManager) {
 		this.hwManager = hwManager;
 	}
 
+	/**
+	 * Visually shows the commited direction in the GUI in red.
+	 * @param elevator The elevator to set the direction for.
+	 */
 	public void setCommitedDirection(int elevator) {
 			Node btnUp = elevators.lookup("#Elevator" + Integer.toString(elevator) + " .btn-up");
 			btnUp.setStyle("-fx-text-fill: black");
@@ -242,16 +261,28 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 			}
 	}
 
+	/**
+	 * Sets the label text to report the current target.
+	 * @param elevator The elevator to show the current target for.
+	 */
 	public void setTargetFloor(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .target-label");
 			label.setText("Target: " + Integer.toString(model.getTarget(elevator)));
 	}
 
+	/**
+	 * Sets the label text to report the current acceleration value.
+	 * @param elevator The elevator to show the acceleration for.
+	 */
 	public void setElevatorAccel(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .accel-label");
 			label.setText("Accel: " + Integer.toString(model.getElevatorAccel(elevator)));
 	}
 
+	/**
+	 * Sets the floor button colors according to the current status (green - selected, black - not selected)
+	 * @param elevator The elevator number to set the buttons for.
+	 */
 	public void setElevatorButton(int elevator) {
 			VBox floorBox = (VBox) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .elevator-floors");
 			ObservableList<Node> floorList = floorBox.getChildren();
@@ -267,6 +298,10 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 			}
 	}
 
+	/**
+	 * Sets the current door status in the GUI label.
+	 * @param elevator Elevator number to set the door status for.
+	 */
 	public void setElevatorDoorStatus(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .doors-label");
 
@@ -292,31 +327,55 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 			label.setText("Doors: " + statusText);
 	}
 
+	/**
+	 * Sets the elevator floor label to the current value.
+	 * @param elevator The elevator to set the floor label for.
+	 */
 	public void setElevatorFloor(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .floor-label");
 			label.setText("Floor: " + Integer.toString(model.getElevatorFloor(elevator)));
 	}
 
+	/**
+	 * Sets the elevator position label to the current value.
+	 * @param elevator The elevator to set the position label for.
+	 */
 	public void setElevatorPosition(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .position-label");
 			label.setText("Position: " + Integer.toString(model.getElevatorPosition(elevator)));
 	}
 
+	/**
+	 * Sets the elevator speed label to the current value.
+	 * @param elevator The elevator to set the speed label for.
+	 */
 	public void setElevatorSpeed(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .speed-label");
 			label.setText("Speed: " + Integer.toString(model.getElevatorSpeed(elevator)));
 	}
 
+	/**
+	 * Sets the elevator weight label to the current value.
+	 * @param elevator The elevator to set the weight label for.
+	 */
 	public void setElevatorWeight(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .weight-label");
 			label.setText("Weight: " + Integer.toString(model.getElevatorWeight(elevator)));
 	}
 
+	/**
+	 * Sets the elevator capacity label to the current value.
+	 * @param elevator The elevator to set the capacity label for.
+	 */
 	public void setElevatorCapacity(int elevator) {
 			Label label = (Label) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .capacity-label");
 			label.setText("Capacity: " + Integer.toString(model.getElevatorCapacity(elevator)));
 	}
 
+	/**
+	 * Sets the floor button up color according to the current status. Active - red, otherwise black.
+	 * @param floor The floor to set the value for.
+	 */
 	public void setFloorButtonUp(int floor) {
 			Label btnUp = (Label) callButtons.lookup("#floor" + Integer.toString(floor) + " .btn-up");
 	
@@ -327,6 +386,10 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 			}
 	}
 
+	/**
+	 * Sets the floor button down color according to the current status. Active - red, otherwise black.
+	 * @param floor The floor to set the value for.
+	 */
 	public void setFloorButtonDown(int floor) {
 			Label btnDown = (Label) callButtons.lookup("#floor" + Integer.toString(floor) + " .btn-down");
 			if (model.getFloorButtonDown(floor)) {
@@ -335,7 +398,12 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 				btnDown.setTextFill(Color.BLACK);
 			}
 	}
-	
+
+	/**
+	 * Sets the serviced floor in the GUI. Deactivates the button if it is not serviced.
+	 * @param elevator The elevator to set the serviced status for.
+	 * @param floor The floor to set the serviced status for.
+	 */
 	public void setServicesFloors(int elevator, int floor) {
 			VBox floorBox = (VBox) elevators.lookup("#Elevator" + Integer.toString(elevator) + " .elevator-floors");
 			ObservableList<Node> floorList = floorBox.getChildren();
@@ -348,6 +416,9 @@ public class ElevatorGui implements EventHandler<MouseEvent> {
 			}
 	}
 
+	/**
+	 * Sets an error message in the error message label in the gui, according to errors set in the model.
+	 */
 	public void setErrorMessage() {
 		errorMsgLabel.setText(model.getErrorMessage());
 	}
