@@ -42,116 +42,246 @@ public class MockElevatorHardwareManager implements IElevatorHardwareManager {
         isConnected = true;
     }
 
+    /**
+     * Reconnect a lost connection.
+     * Only prints a message to stdout.
+     */
     @Override
     public void reconnect() {
         System.out.println("Try to reconnect...");
     }
 
+    /**
+     * Gets the current connection status.
+     * @return Always true.
+     */
     @Override
     public boolean getIsConnected() {
         return true;
     }
 
+    /**
+     * Sets the current connection status.
+     * @param isConnected Always true.
+     */
     @Override
     public void setIsConnected(boolean isConnected) {
         this.isConnected = isConnected;
     }
 
+    /**
+     * Gets the current commited direction.
+     * @param elevatorNumber - elevator number whose committed direction is being retrieved
+     * @return Always uncommitted.
+     * @throws RemoteException Not used.
+     */
     @Override
     public int getCommittedDirection(int elevatorNumber) throws RemoteException {
         return commitedDirecton.get(elevatorNumber);
     }
 
+    /**
+     * Gets the current acceleration.
+     * @param elevatorNumber - elevator number whose acceleration is being retrieved
+     * @return A fixed value varied by elevator number.
+     */
     @Override
     public int getElevatorAccel(int elevatorNumber) throws RemoteException {
         return 536 + elevatorNumber;
     }
 
+    /**
+     * Gets the current status of a specific elevator button
+     * @param elevatorNumber - elevator number whose button status is being retrieved
+     * @param floor          - floor number button being checked on the selected elevator
+     * @return Always true.
+     * @throws RemoteException Not used.
+     */
     @Override
     public boolean getElevatorButton(int elevatorNumber, int floor) throws RemoteException {
         return true;
     }
 
+    /**
+     * Gets the current door status.
+     * @param elevatorNumber - elevator number whose door status is being retrieved
+     * @return Always 3.
+     * @throws RemoteException Not used.
+     */
     @Override
     public int getElevatorDoorStatus(int elevatorNumber) throws RemoteException {
         return 3;
     }
 
+    /**
+     * Gets the current floor of the elevator.
+     * @param elevatorNumber - elevator number whose location is being retrieved
+     * @return Always 2.
+     * @throws RemoteException Not used.
+     */
     @Override
     public int getElevatorFloor(int elevatorNumber) throws RemoteException {
         return 2;
     }
 
+    /**
+     * Gets the number of elevators.
+     * @return A fixed value.
+     * @throws RemoteException Not used.
+     */
     @Override
     public int getElevatorNum() throws RemoteException {
         return constantNumberOfElevators;
     }
 
+    /**
+     * Gets the current position.
+     * @param elevatorNumber - elevator number whose location is being retrieved
+     * @return Always 3.
+     * @throws RemoteException Not used.
+     */
     @Override
     public int getElevatorPosition(int elevatorNumber) throws RemoteException {
         return 3;
     }
 
+    /**
+     * Gets the current speed of an elevator.
+     * @param elevatorNumber - elevator number whose speed is being retrieved
+     * @return A fixed value varied by elevator number.
+     * @throws RemoteException Not used.
+     */
     @Override
     public int getElevatorSpeed(int elevatorNumber) throws RemoteException {
         return 789 + elevatorNumber;
     }
 
+    /**
+     * Gets the current weight.
+     * @param elevatorNumber - elevator number whose service is being retrieved
+     * @return A fixed value varied by elevator number.
+     * @throws RemoteException Not used.
+     */
     @Override
     public int getElevatorWeight(int elevatorNumber) throws RemoteException {
         return 444 + elevatorNumber;
     }
 
+    /**
+     * Gets the current capacity.
+     * @param elevatorNumber - elevator number whose service is being retrieved
+     * @return A fixed value varied by elevator number.
+     * @throws RemoteException Not used.
+     */
     @Override
     public int getElevatorCapacity(int elevatorNumber) throws RemoteException {
         return 1234 + elevatorNumber;
     }
 
+    /**
+     * Gets the current floor button down status.
+     * @param floor - floor number whose Down button status is being retrieved
+     * @return Always false.
+     * @throws RemoteException Not used.
+     */
     @Override
     public boolean getFloorButtonDown(int floor) throws RemoteException {
         return false;
     }
 
+    /**
+     * Gets the current floor button up status.
+     * @param floor - floor number whose up button status is being retrieved
+     * @return Always false.
+     * @throws RemoteException Not used.
+     */
     @Override
     public boolean getFloorButtonUp(int floor) throws RemoteException {
         return false;
     }
 
+    /**
+     * Gets the floor height.
+     * @return A fixed value.
+     * @throws RemoteException Not used.
+     */
     @Override
     public int getFloorHeight() throws RemoteException {
         return 4711;
     }
 
+    /**
+     * Gets the number of floors.
+     * @return A fixed value.
+     * @throws RemoteException Not used.
+     */
     @Override
     public int getFloorNum() throws RemoteException {
         return constantNumberOfFloors;
     }
 
+    /**
+     * Gets the floor serviced status.
+     * @param elevatorNumber elevator number whose service is being retrieved
+     * @param floor          floor whose service status by the specified elevator is being retrieved
+     * @return Always false.
+     * @throws RemoteException Not used.
+     */
     @Override
     public boolean getServicesFloors(int elevatorNumber, int floor) throws RemoteException {
         return servicesFloors.get(elevatorNumber).get(floor);
     }
 
+    /**
+     * Gets the current target.
+     * @param elevatorNumber elevator number whose target floor is being retrieved
+     * @return Always zero.
+     * @throws RemoteException Not used.
+     */
     @Override
     public int getTarget(int elevatorNumber) throws RemoteException {
         return targetFloor.get(elevatorNumber);
     }
 
+    /**
+     * Sets the commited direction.
+     * @param elevatorNumber elevator number whose committed direction is being set
+     * @param direction      direction being set where up=0, down=1 and uncommitted=2
+     * @throws RemoteException Not used.
+     */
     @Override
     public void setCommittedDirection(int elevatorNumber, int direction) throws RemoteException {
         commitedDirecton.set(elevatorNumber, direction);
     }
 
+    /**
+     * Sets the serviced status for a floor.
+     * @param elevatorNumber elevator number whose service is being defined
+     * @param floor          floor whose service by the specified elevator is being set
+     * @param service        indicates whether the floor is serviced by the specified elevator (yes=true,no=false)
+     * @throws RemoteException Not used.
+     */
     @Override
     public void setServicesFloors(int elevatorNumber, int floor, boolean service) throws RemoteException {
         servicesFloors.get(elevatorNumber).set(floor, service);
     }
 
+    /**
+     * Sets the target.
+     * @param elevatorNumber elevator number whose target floor is being set
+     * @param target         floor number which the specified elevator is to target
+     * @throws RemoteException Not used.
+     */
     @Override
     public void setTarget(int elevatorNumber, int target) throws RemoteException {
         targetFloor.set(elevatorNumber, target);
     }
 
+    /**
+     * Gets the current clock tick of the system.
+     * @return A fixed value of 123456789.
+     * @throws RemoteException Not used.
+     */
     @Override
     public long getClockTick() throws RemoteException {
         return 123456789;

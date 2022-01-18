@@ -17,10 +17,19 @@ import java.util.concurrent.TimeUnit;
  */
 public class ElevatorMain extends Application{
 
+    /**
+     * Called on application start.
+     * @param args copied on to the application launcher.
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Starts the application GUI, sets models and starts the updater.
+     * @param primaryStage The stage to show the GUI on.
+     * @throws Exception are shown in the error label in the gui, if possible.
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
