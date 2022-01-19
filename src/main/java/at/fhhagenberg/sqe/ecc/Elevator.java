@@ -169,6 +169,10 @@ public class Elevator {
      * @param elevatorDoorStatus The value to be set, open, opening, closing or closed.
      */
     public void setElevatorDoorStatus(int elevatorDoorStatus) {
+        if (elevatorDoorStatus < IElevator.ELEVATOR_DIRECTION_UP || elevatorDoorStatus > IElevator.ELEVATOR_DOORS_CLOSING)
+        {
+            throw new IllegalArgumentException("door status value is invalid");
+        }
         this.elevatorDoorStatus = elevatorDoorStatus;
     }
 
@@ -177,6 +181,9 @@ public class Elevator {
      * @param elevatorFloor The value to be set, location to the nearest floor.
      */
     public void setElevatorFloor(int elevatorFloor) {
+        if (elevatorFloor < 0 || elevatorFloor > floors.size() - 1) {
+            throw new IllegalArgumentException("floor value is invalid");
+        }
         this.elevatorFloor = elevatorFloor;
     }
 
@@ -217,6 +224,9 @@ public class Elevator {
      * @param elevatorTargetFloor The target floor the elevator is traveling to.
      */
     public void setTarget(int elevatorTargetFloor) {
+        if (elevatorTargetFloor < 0 || elevatorTargetFloor > floors.size() - 1) {
+            throw new IllegalArgumentException("floor value is invalid");
+        }
         this.target = elevatorTargetFloor;
     }
 
